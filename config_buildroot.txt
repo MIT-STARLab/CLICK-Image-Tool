@@ -1,3 +1,5 @@
+# Buildroot configuration flags
+
 # Default architecture
 BR2_arm=y
 BR2_cortex_a53=y
@@ -11,7 +13,7 @@ BR2_GIT="git clone --depth=1"
 BR2_LINUX_KERNEL_CUSTOM_GIT=y
 BR2_LINUX_KERNEL_CUSTOM_REPO_URL="https://github.com/raspberrypi/linux"
 BR2_LINUX_KERNEL_DEFCONFIG="bcm2709"
-BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="../kernel_config"
+BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="../config_kernel.txt"
 
 # Build the DTB from the kernel sources
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
@@ -28,6 +30,5 @@ BR2_PACKAGE_HOST_MTOOLS=y
 BR2_TARGET_ROOTFS_EXT2=y
 BR2_TARGET_ROOTFS_EXT2_4=y
 BR2_TARGET_ROOTFS_EXT2_SIZE="120M"
-BR2_ROOTFS_POST_BUILD_SCRIPT="board/raspberrypi3/post-build.sh"
-BR2_ROOTFS_POST_IMAGE_SCRIPT="board/raspberrypi3/post-image.sh"
-BR2_ROOTFS_POST_SCRIPT_ARGS="--add-miniuart-bt-overlay"
+BR2_ROOTFS_POST_BUILD_SCRIPT="../post-build.sh"
+BR2_ROOTFS_POST_IMAGE_SCRIPT="../post-image.sh"
