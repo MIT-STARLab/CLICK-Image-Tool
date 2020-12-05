@@ -11,7 +11,7 @@ BR2_OPTIMIZE_S=y
 BR2_CCACHE=y
 
 # Linux kernel configuration
-# Using final 5.9 kernel commit: https://github.com/raspberrypi/linux/tree/rpi-5.9.y
+# Using final 5.9 commit: https://github.com/raspberrypi/linux/tree/rpi-5.9.y
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_9=y
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_LZ4=y
@@ -22,7 +22,11 @@ BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="../config_kernel.txt"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
 BR2_LINUX_KERNEL_INTREE_DTS_NAME="bcm2710-rpi-cm3"
 BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
+BR2_LINUX_KERNEL_IMAGE_TARGET_CUSTOM=y
 BR2_LINUX_KERNEL_IMAGE_TARGET_NAME="kernel"
+
+# BusyBox minimal configuration
+BR2_PACKAGE_BUSYBOX_CONFIG="package/busybox/busybox-minimal.config"
 
 # Required tools to create the image
 # BR2_PACKAGE_HOST_DOSFSTOOLS=y
