@@ -1,22 +1,11 @@
 # RPi boot configuration
-
-# Boot in cut-down GPU mode without video codecs etc.
-gpu_mem=16
-start_cd=1
-
-# Disable HDMI PHY output
-hdmi_blanking=2
-disable_splash=1
-
-# Fix GPU clock to make SPI frequency correct and stable
-# https://github.com/raspberryPI/linux/issues/2094
-core_freq_min=350
-core_freq=350
-
-# Disable unneeded peripherals
-dtparam=audio=off
-force_eeprom_read=0
-
-# Enable CLICK SPI driver
-dtoverlay=click_spi
-
+kernel=kernel           # Kernel image filename
+gpu_mem=16              # Allocate minimum RAM for GPU
+start_cd=1              # Use cut-down bootloader which ignores GPU codecs, etc.
+core_freq_min=350       # Fix GPU clock to make SCLK correct and stable
+core_freq=350           # https://github.com/raspberryPI/linux/issues/2094
+dtparam=audio=off       # Disable audio init
+hdmi_blanking=2         # Disable HDMI PHY output
+disable_splash=1        # Disable splash screen on boot
+force_eeprom_read=0     # Disable search for any HATs
+dtoverlay=click_spi     # Enable CLICK SPI driver
