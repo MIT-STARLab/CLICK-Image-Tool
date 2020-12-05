@@ -1,12 +1,14 @@
 # Buildroot configuration flags
-
-# Primary build config
+# Primary build flags
 BR2_arm=y
 BR2_cortex_a53=y
 BR2_ARM_FPU_NEON_VFPV4=y
 BR2_TOOLCHAIN_BUILDROOT_CXX=y
 BR2_TOOLCHAIN_BUILDROOT_GLIBC=y
-BR2_OPTIMIZE_2=y
+BR2_BINUTILS_VERSION_2_35_X=y
+BR2_GCC_VERSION_10_X=y
+BR2_OPTIMIZE_S=y
+BR2_CCACHE=y
 
 # Linux kernel configuration
 # Using latest 5.9 kernel commit: https://github.com/raspberrypi/linux/tree/rpi-5.9.y
@@ -35,6 +37,10 @@ BR2_TARGET_ROOTFS_EXT2_SIZE="120M"
 # BR2_ROOTFS_POST_BUILD_SCRIPT="../post-build.sh"
 # BR2_ROOTFS_POST_IMAGE_SCRIPT="../post-image.sh"
 
-# Some default configuration
+# CLICK specific
+BR2_INIT_SYSTEMD=y
+BR2_TARGET_GENERIC_ISSUE=""
 BR2_TARGET_GENERIC_HOSTNAME="click"
 BR2_TARGET_LOCALTIME="America/New_York"
+BR2_TARGET_GENERIC_ROOT_PASSWD="lasercom"
+BR2_TARGET_GENERIC_GETTY=n

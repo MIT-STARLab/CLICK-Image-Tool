@@ -3,11 +3,11 @@
 
 # Initialization
 cores=$(nproc)
-if [ ! -d "output" ] && mkdir output
-git submodule update --recursive --remote --init --jobs $cores
+git submodule update --remote --rebase --init --jobs $cores
+[ ! -d "output" ] && mkdir output
 
 # Run buildroot
 cd buildroot
-make defconfig BR2_DEFCONFIG=../config_buildroot.txt BR2_EXTERNAL=../extras BR2_JLEVEL=$cores O=../output
+make defconfig BR2_DEFCONFIG=../config_buildroot.txt BR2_EXTERNAL=../extra BR2_JLEVEL=$cores O=../output
 cd ../output
 # make BR2_JLEVEL=$cores
