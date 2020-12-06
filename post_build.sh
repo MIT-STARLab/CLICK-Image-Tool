@@ -8,8 +8,8 @@ set -e
 if [ ! -L ${TARGET_DIR}/var/lock ]; then
     rm -rf ${TARGET_DIR}/run/dbus
     rm -rf ${TARGET_DIR}/var/log/journal
-    ln -s ${TARGET_DIR}/tmp ${TARGET_DIR}/var/spool
-    ln -s ${TARGET_DIR}/tmp ${TARGET_DIR}/var/lock
+    ln -s /tmp ${TARGET_DIR}/var/spool
+    ln -s /tmp ${TARGET_DIR}/var/lock
 fi
 
 # Configure the filesystems
