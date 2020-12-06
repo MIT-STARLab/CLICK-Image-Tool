@@ -13,8 +13,8 @@ if [ ! -L ${TARGET_DIR}/var/lock ]; then
 fi
 
 # Configure the filesystems
-if [ -e ${TARGET_DIR}/etc/fstab ] && [ ! grep -qE '^tmpfs' ${TARGET_DIR}/etc/fstab ]; then
-	# echo "/dev/mmcblk0p3 /root ext4 defaults 0 1" >> ${TARGET_DIR}/etc/fstab
+if [ -e ${TARGET_DIR}/etc/fstab ] && ! grep -qE '^tmpfs' ${TARGET_DIR}/etc/fstab; then
+	# echo "/dev/mmcblk0p3 /root ext4 defaults 0" >> ${TARGET_DIR}/etc/fstab
     echo "tmpfs /tmp tmpfs nosuid,nodev 0 0" >> ${TARGET_DIR}/etc/fstab
     echo "tmpfs /run tmpfs nosuid,nodev 0 0" >> ${TARGET_DIR}/etc/fstab
     echo "tmpfs /var/log tmpfs nosuid,nodev 0 0" >> ${TARGET_DIR}/etc/fstab
