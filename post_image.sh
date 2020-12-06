@@ -3,8 +3,16 @@
 # buildroot/board/raspberrypi3/post-image.sh
 set -e
 
+# Copy kernel and boot config files
 [ -f "${BINARIES_DIR}/zImage" ] && mv "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/kernel"
 [ ! -f "${BINARIES_DIR}/config.txt" ] && cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
+[ ! -f "${BINARIES_DIR}/cmdline.txt" ] && cp "../cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
+
+# Compile SPI driver overlay
+[ ! -d "${BINARIES_DIR}/overlays" ]; then
+	mkdir "${BINARIES_DIR}/overlays"
+	dtc -O dtb -o "${BINARIES_DIR}/overlays/click_spi.dtbo" -b 0 -@ ../click/bus/driver/click_spi.dts
+fi
 
 # Pass an empty rootpath. genimage makes a full copy of the given rootpath to
 # ${GENIMAGE_TMP}/root so passing TARGET_DIR would be a waste of time and disk

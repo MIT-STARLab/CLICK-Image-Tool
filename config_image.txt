@@ -4,17 +4,18 @@
 image boot.vfat {
   vfat {
     files = {
+      "config.txt",
+      # "cmdline.txt",
       "bcm2710-rpi-cm3.dtb",
-      "rpi-firmware/bootcode.bin",
       "rpi-firmware/cmdline.txt",
-      "rpi-firmware/config.txt",
-      "rpi-firmware/fixup.dat",
+      "rpi-firmware/bootcode.bin",
+      "rpi-firmware/fixup_cd.dat",
       "rpi-firmware/start_cd.elf",
-      "rpi-firmware/overlays",
-      "zImage"
+      "overlays",
+      "kernel"
     }
   }
-  size = 32M
+  size = 8M
 }
 
 image sdcard.img {
@@ -27,8 +28,8 @@ image sdcard.img {
     image = "boot.vfat"
   }
 
-  partition rootfs {
+  partition squashfs {
     partition-type = 0x83
-    image = "rootfs.ext4"
+    image = "rootfs.squashfs"
   }
 }

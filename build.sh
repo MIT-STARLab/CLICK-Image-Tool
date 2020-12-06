@@ -10,4 +10,4 @@ git submodule update --remote --rebase --init --jobs $cores
 cd buildroot
 make defconfig BR2_DEFCONFIG=../config_buildroot.txt BR2_EXTERNAL=../extra BR2_JLEVEL=$cores O=../output
 cd ../output
-# make BR2_JLEVEL=$cores
+make BR2_JLEVEL=$cores
