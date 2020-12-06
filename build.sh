@@ -4,7 +4,7 @@
 # Initialization
 cores=$(nproc)
 [ ! -d "output" ] && mkdir output
-[ ! -f "buildroot/Makefile" ] && git submodule update --remote --init --jobs $cores
+[ ! -f "buildroot/Makefile" ] && git submodule update --init --jobs $cores
 
 # Run buildroot
 cd buildroot
