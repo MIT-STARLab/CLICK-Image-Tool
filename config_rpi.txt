@@ -8,4 +8,4 @@ hdmi_blanking=2         # Disable HDMI PHY output
 disable_splash=1        # Disable splash screen on boot
 force_eeprom_read=0     # Disable search for any HATs
 dtoverlay=click_spi     # Enable CLICK SPI driver
-enable_uart=1
+enable_uart=1           # Enable UART0
