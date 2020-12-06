@@ -1,5 +1,6 @@
 # Linux kernel configuration flags
 CONFIG_LOCALVERSION="-CLICK"
+CONFIG_DEVTMPFS_MOUNT=y
 CONFIG_SQUASHFS_LZ4=y
 CONFIG_PPP=y
 
