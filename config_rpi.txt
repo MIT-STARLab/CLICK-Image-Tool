@@ -1,4 +1,6 @@
 # RPi boot configuration
+start_file=start.elf    # 2nd stage bootloader
+fixup_file=fixup.dat    # 2nd stage bootloader
 kernel=kernel.img       # Kernel image filename
 gpu_mem=16              # Allocate minimum RAM for GPU
 core_freq_min=350       # Fix GPU clock to make SCLK correct and stable
@@ -9,3 +11,4 @@ disable_splash=1        # Disable splash screen on boot
 force_eeprom_read=0     # Disable search for any HATs
 dtoverlay=click_spi     # Enable CLICK SPI driver
 dtparam=uart0=on        # Enable UART0
+uart_2ndstage=1         # Enable UART bootloader logs
