@@ -13,7 +13,7 @@ BR2_OPTIMIZE_S=y
 BR2_CCACHE=y
 
 # Linux kernel configuration
-# Using final 5.9 commit: https://github.com/raspberrypi/linux/tree/rpi-5.9.y
+# Using final 5.9 rpi commit: https://github.com/raspberrypi/linux/tree/rpi-5.9.y
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_9=y
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_LZ4=y
@@ -41,7 +41,7 @@ BR2_TARGET_ROOTFS_SQUASHFS=y
 BR2_TARGET_ROOTFS_SQUASHFS_PAD=y
 BR2_TARGET_ROOTFS_SQUASHFS4_LZ4=y
 BR2_TARGET_ROOTFS_TAR=n
-# BR2_ROOTFS_POST_BUILD_SCRIPT="../post_build.sh"
+BR2_ROOTFS_POST_BUILD_SCRIPT="../post_build.sh"
 BR2_ROOTFS_POST_IMAGE_SCRIPT="../post_image.sh"
 
 # CLICK specific config
@@ -52,7 +52,8 @@ BR2_TARGET_LOCALTIME="America/New_York"
 BR2_TARGET_GENERIC_ROOT_PASSWD="lasercom"
 BR2_TARGET_GENERIC_GETTY=n
 
-# Packages, other CLICK SW dependencies are in extra/package/click/Config.in
+# Package list
+# Most CLICK SW dependencies are in extra/package/click/Config.in
 BR2_PACKAGE_CLICK=y
 BR2_PACKAGE_RPI_FIRMWARE=y
 BR2_PACKAGE_RPI_FIRMWARE_VARIANT_PI=y

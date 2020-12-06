@@ -4,9 +4,20 @@
 set -u
 set -e
 
-# Add a console on tty1
-if [ -e ${TARGET_DIR}/etc/inittab ]; then
-    grep -qE '^tty1::' ${TARGET_DIR}/etc/inittab || \
-	sed -i '/GENERIC_SERIAL/a\
-tty1::respawn:/sbin/getty -L  tty1 0 vt100 # HDMI console' ${TARGET_DIR}/etc/inittab
+# Move some system files to tmpfs
+if [ ! -L ${TARGET_DIR}/var/lock ]; then
+    rm -rf ${TARGET_DIR}/run/dbus
+    rm -rf ${TARGET_DIR}/var/log/journal
+    ln -s /tmp /var/spool
+    ln -s /tmp /var/lock
+fi
+
+# Configure the filesystems
+if [ -e ${TARGET_DIR}/etc/fstab ]; then
+    grep -qE '^tmpfs' ${TARGET_DIR}/etc/fstab || \
+	# echo "/dev/mmcblk0p3 /root ext4 defaults 0" >> ${TARGET_DIR}/etc/fstab && \
+    echo "tmpfs /tmp tmpfs nosuid,nodev 0" >> ${TARGET_DIR}/etc/fstab && \
+    echo "tmpfs /run tmpfs nosuid,nodev 0" >> ${TARGET_DIR}/etc/fstab && \
+    echo "tmpfs /var/log tmpfs nosuid,nodev 0" >> ${TARGET_DIR}/etc/fstab && \
+    echo "tmpfs /var/tmp tmpfs nosuid,nodev 0" >> ${TARGET_DIR}/etc/fstab
 fi
