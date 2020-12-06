@@ -9,7 +9,7 @@ set -e
 [ ! -f "${BINARIES_DIR}/cmdline.txt" ] && cp "../cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 
 # Compile SPI driver overlay
-[ ! -d "${BINARIES_DIR}/overlays" ]; then
+if [ ! -d "${BINARIES_DIR}/overlays" ]; then
 	mkdir "${BINARIES_DIR}/overlays"
 	dtc -O dtb -o "${BINARIES_DIR}/overlays/click_spi.dtbo" -b 0 -@ ../click/bus/driver/click_spi.dts
 fi
