@@ -15,7 +15,7 @@ image boot.vfat {
       "overlays"
     }
   }
-  size = 5345280
+  size = 5400576
 }
 
 image sdcard.img {
