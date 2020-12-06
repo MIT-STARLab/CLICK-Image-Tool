@@ -11,4 +11,3 @@ disable_splash=1        # Disable splash screen on boot
 force_eeprom_read=0     # Disable search for any HATs
 dtoverlay=click_spi     # Enable CLICK SPI driver
 dtparam=uart0=on        # Enable UART0
-uart_2ndstage=1         # Enable UART bootloader logs
