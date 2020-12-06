@@ -1,9 +1,0 @@
-[submodule "click"]
-	path = click
-	url = https://github.com/MIT-STARLab/CLICK-A-RPi.git
-[submodule "buildroot"]
-	path = buildroot
-	url = https://github.com/buildroot/buildroot.git
-[submodule "usbboot"]
-	path = usbboot
-	url = https://github.com/raspberrypi/usbboot.git

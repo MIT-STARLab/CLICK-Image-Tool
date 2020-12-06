@@ -3,9 +3,8 @@
 
 # Initialization
 cores=$(nproc)
-git submodule update --remote --rebase --init --jobs $cores
 [ ! -d "output" ] && mkdir output
-[ ! -L "overlay/root" ] && ln -s "$(pwd)/click" overlay/root
+[ ! -f "buildroot/Makefile" ] && git submodule update --remote --init --jobs $cores
 
 # Run buildroot
 cd buildroot

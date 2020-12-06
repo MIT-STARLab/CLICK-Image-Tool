@@ -1,1 +1,1 @@
-source "$BR2_EXTERNAL_CLICK_PATH/package/driver/Config.in"
+source "$BR2_EXTERNAL_CLICK_PATH/package/click/Config.in"
