@@ -3,6 +3,7 @@
 
 image boot.vfat {
   vfat {
+    extraargs = "-F16 -s1"
     files = {
       "kernel.img",
       "config.txt",
@@ -14,7 +15,7 @@ image boot.vfat {
       "overlays"
     }
   }
-  size = 8M
+  size = 5500000
 }
 
 image sdcard.img {
@@ -27,7 +28,7 @@ image sdcard.img {
     image = "boot.vfat"
   }
 
-  partition squashfs {
+  partition root {
     partition-type = 0x83
     image = "rootfs.squashfs"
   }
