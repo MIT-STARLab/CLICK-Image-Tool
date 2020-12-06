@@ -4,7 +4,7 @@
 set -e
 
 # Copy kernel and boot config files
-[ -f "${BINARIES_DIR}/zImage" ] && mv "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/kernel"
+[ -f "${BINARIES_DIR}/zImage" ] && mv "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/kernel.img"
 cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
 cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 

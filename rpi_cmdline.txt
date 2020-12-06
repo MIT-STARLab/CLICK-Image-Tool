@@ -1,1 +1,1 @@
-rootfstype=suqashfs root=/dev/mmcblk0p2 earlycon=pl011,mmio32,0x3f201000 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 plymouth.enable=0 rootwait fastboot noswap ro
+rootfstype=suqashfs root=/dev/mmcblk0p2 earlycon=pl011,mmio32,0x3f201000 console=ttyAMA0,115200 dwc_otg.lpm_enable=0 plymouth.enable=0 rootwait ro noinitrd earlyprintk

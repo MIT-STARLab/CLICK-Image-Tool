@@ -1,5 +1,5 @@
 # RPi boot configuration
-kernel=kernel           # Kernel image filename
+kernel=kernel.img       # Kernel image filename
 gpu_mem=16              # Allocate minimum RAM for GPU
 core_freq_min=350       # Fix GPU clock to make SCLK correct and stable
 core_freq=350           # https://github.com/raspberryPI/linux/issues/2094
