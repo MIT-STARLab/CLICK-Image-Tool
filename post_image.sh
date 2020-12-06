@@ -5,8 +5,8 @@ set -e
 
 # Copy kernel and boot config files
 [ -f "${BINARIES_DIR}/zImage" ] && mv "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/kernel"
-[ ! -f "${BINARIES_DIR}/config.txt" ] && cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
-[ ! -f "${BINARIES_DIR}/cmdline.txt" ] && cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
+cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
+cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 
 # Compile SPI driver overlay
 if [ ! -d "${BINARIES_DIR}/overlays" ]; then
