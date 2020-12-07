@@ -15,8 +15,8 @@ ln -sfn /tmp ${TARGET_DIR}/var/tmp
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-timesyncd.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/getty@.service
 
-# Auto login root if tty running
-sed -i "s/sbin\/agetty -o '-p -- \\\\\\\\u'/sbin\/agetty --skip-login --nonewline --noissue --autologin root/" ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service
+# Auto login root if a tty running
+sed -i "s/sbin\/agetty/sbin\/agetty -a root/" ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service
 
 # Configure the filesystems
 if [ -e ${TARGET_DIR}/etc/fstab ] && ! grep -qE '^tmpfs' ${TARGET_DIR}/etc/fstab; then
