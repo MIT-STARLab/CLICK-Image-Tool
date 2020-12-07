@@ -28,6 +28,7 @@ BR2_LINUX_KERNEL_NEEDS_HOST_LIBELF=y
 
 # BusyBox tools configuration
 BR2_PACKAGE_BUSYBOX_CONFIG="../config_busybox.txt"
+BR2_PACKAGE_UTIL_LINUX_AGETTY=n
 
 # Required host tools to create the golen image
 BR2_PACKAGE_HOST_RASPBERRYPI_USBBOOT=y
