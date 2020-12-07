@@ -5,13 +5,18 @@ set -u
 set -e
 
 # Move some system files to tmpfs
-if [ ! -L ${TARGET_DIR}/var/tmp ]; then
-    rm -rf ${TARGET_DIR}/run/dbus
-    rm -rf ${TARGET_DIR}/var/log/journal
-    ln -sfn /tmp ${TARGET_DIR}/var/spool
-    ln -sfn /tmp ${TARGET_DIR}/var/lock
-    ln -sfn /tmp ${TARGET_DIR}/var/tmp
-fi
+rm -rf ${TARGET_DIR}/run/dbus
+rm -rf ${TARGET_DIR}/var/log/journal
+ln -sfn /tmp ${TARGET_DIR}/var/spool
+ln -sfn /tmp ${TARGET_DIR}/var/lock
+ln -sfn /tmp ${TARGET_DIR}/var/tmp
+
+# Disable some systemd default services
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-timesyncd.service
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/getty@.service
+
+# Auto login root if tty running
+sed -i "s/sbin\/agetty -o '-p -- \\\\u'/sbin\/agetty --skip-login --nonewline --noissue --autologin root/" ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service
 
 # Configure the filesystems
 if [ -e ${TARGET_DIR}/etc/fstab ] && ! grep -qE '^tmpfs' ${TARGET_DIR}/etc/fstab; then
