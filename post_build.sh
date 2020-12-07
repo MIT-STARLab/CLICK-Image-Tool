@@ -5,11 +5,12 @@ set -u
 set -e
 
 # Move some system files to tmpfs
-if [ ! -L ${TARGET_DIR}/var/lock ]; then
+if [ ! -L ${TARGET_DIR}/var/tmp ]; then
     rm -rf ${TARGET_DIR}/run/dbus
     rm -rf ${TARGET_DIR}/var/log/journal
-    ln -s /tmp ${TARGET_DIR}/var/spool
-    ln -s /tmp ${TARGET_DIR}/var/lock
+    ln -sfn /tmp ${TARGET_DIR}/var/spool
+    ln -sfn /tmp ${TARGET_DIR}/var/lock
+    ln -sfn /tmp ${TARGET_DIR}/var/tmp
 fi
 
 # Configure the filesystems
@@ -18,5 +19,4 @@ if [ -e ${TARGET_DIR}/etc/fstab ] && ! grep -qE '^tmpfs' ${TARGET_DIR}/etc/fstab
     echo "tmpfs /tmp tmpfs nosuid,nodev 0 0" >> ${TARGET_DIR}/etc/fstab
     echo "tmpfs /run tmpfs nosuid,nodev 0 0" >> ${TARGET_DIR}/etc/fstab
     echo "tmpfs /var/log tmpfs nosuid,nodev 0 0" >> ${TARGET_DIR}/etc/fstab
-    echo "tmpfs /var/tmp tmpfs nosuid,nodev 0 0" >> ${TARGET_DIR}/etc/fstab
 fi
