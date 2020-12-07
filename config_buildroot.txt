@@ -13,12 +13,12 @@ BR2_OPTIMIZE_S=y
 BR2_CCACHE=y
 
 # Linux kernel configuration
-# Using final 5.9 rpi commit: https://github.com/raspberrypi/linux/tree/rpi-5.9.y
+# Using latest 5.9 (stable) rpi commit: https://github.com/raspberrypi/linux/tree/rpi-5.9.y
 BR2_PACKAGE_HOST_LINUX_HEADERS_CUSTOM_5_9=y
 BR2_LINUX_KERNEL=y
 BR2_LINUX_KERNEL_LZ4=y
 BR2_LINUX_KERNEL_CUSTOM_TARBALL=y
-BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,raspberrypi,linux,9306844b43ed6eeb5afe6f5fb54289979636c6e5)/linux-9306844b43ed6eeb5afe6f5fb54289979636c6e5.tar.gz"
+BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION="$(call github,raspberrypi,linux,cff5fa15e5d11758db426eee3524a5dfded3c62b)/linux-cff5fa15e5d11758db426eee3524a5dfded3c62b.tar.gz"
 BR2_LINUX_KERNEL_DEFCONFIG="bcm2709"
 BR2_LINUX_KERNEL_CONFIG_FRAGMENT_FILES="../config_kernel.txt"
 BR2_LINUX_KERNEL_DTS_SUPPORT=y
@@ -27,8 +27,8 @@ BR2_LINUX_KERNEL_NEEDS_HOST_OPENSSL=y
 BR2_LINUX_KERNEL_NEEDS_HOST_LIBELF=y
 
 # BusyBox tools configuration
-BR2_PACKAGE_BUSYBOX_CONFIG="../config_busybox.txt"
-BR2_PACKAGE_UTIL_LINUX_AGETTY=n
+BR2_PACKAGE_BUSYBOX_CONFIG="package/busybox/busybox-minimal.config"
+BR2_PACKAGE_BUSYBOX_CONFIG_FRAGMENT_FILES="../config_busybox.txt"
 
 # Required host tools to create the golen image
 BR2_PACKAGE_HOST_RASPBERRYPI_USBBOOT=y
@@ -47,11 +47,13 @@ BR2_ROOTFS_POST_IMAGE_SCRIPT="../post_image.sh"
 
 # CLICK specific config
 BR2_INIT_SYSTEMD=y
+BR2_TARGET_ENABLE_ROOT_LOGIN=y
 BR2_TARGET_GENERIC_ISSUE=""
 BR2_TARGET_GENERIC_HOSTNAME="click"
-BR2_TARGET_LOCALTIME="America/New_York"
-BR2_TARGET_GENERIC_ROOT_PASSWD="lasercom"
 BR2_TARGET_GENERIC_GETTY=n
+BR2_TARGET_GENERIC_ROOT_PASSWD="lasercom"
+BR2_TARGET_GENERIC_REMOUNT_ROOTFS_RW=n
+BR2_TARGET_LOCALTIME="America/New_York"
 
 # Package list
 # Most CLICK SW dependencies are in extra/package/click/Config.in
