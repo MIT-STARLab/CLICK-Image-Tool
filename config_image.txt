@@ -15,7 +15,7 @@ image boot.vfat {
       "overlays"
     }
   }
-  size = 3231360
+  size = 3230208
 }
 
 image sdcard.img {
@@ -31,5 +31,10 @@ image sdcard.img {
   partition root {
     partition-type = 0x83
     image = "rootfs.squashfs"
+  }
+
+  partition fsw {
+    partition-type = 0x83
+    size = 3700M
   }
 }

@@ -4,7 +4,9 @@
 set -u
 set -e
 
-# Disable some systemd default services
+# Disable some systemd default services on boot
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-networkd.socket
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-networkd.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-timesyncd.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-resolved.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/getty@.service
