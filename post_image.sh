@@ -50,7 +50,7 @@ bootfiles[0]="overlays"
 bootfiles=$(printf "\"%s\"," "${bootfiles[@]}")
 bootfiles=${bootfiles%?}
 cat > "${BUILD_DIR}/genimage.cfg" <<EOF
-image boot.vfat { vfat { extraargs = "-F 16 -s 1" files = { $bootfiles } } size = $RPI_BOOTPART_OVERHEAD } 
+image boot.vfat { vfat { extraargs = "-F 16 -s 1" files = { $bootfiles } } size = $RPI_BOOTPART_OVERHEAD }
 image sdcard.img {
 	hdimage {}
 	partition boot { partition-type = 0xE bootable = "true" image = "boot.vfat" }
