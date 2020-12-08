@@ -1,13 +1,22 @@
 # RPi boot configuration
-start_file=start.elf    # 2nd stage bootloader
-fixup_file=fixup.dat    # 2nd stage bootloader
-kernel=kernel.img       # Kernel image filename
-gpu_mem=16              # Allocate minimum RAM for GPU
-core_freq_min=350       # Fix GPU clock to make SCLK correct and stable
-core_freq=350           # https://github.com/raspberryPI/linux/issues/2094
-dtparam=audio=off       # Disable audio init
-hdmi_blanking=2         # Disable HDMI PHY output
-disable_splash=1        # Disable splash screen on boot
-force_eeprom_read=0     # Disable search for any HATs
-dtoverlay=click_spi     # Enable CLICK SPI driver
-dtparam=uart0=on        # Enable UART0
+start_file=start.elf
+fixup_file=fixup.dat
+kernel=kernel.img
+
+# Allocate minimum RAM for GPU
+gpu_mem=16
+
+# Fix GPU clock to make SCLK correct and stable
+# https://github.com/raspberryPI/linux/issues/2094
+core_freq_min=350       
+core_freq=350
+
+# Disable unneeded features
+hdmi_blanking=2
+disable_splash=1
+force_eeprom_read=0
+dtparam=audio=off
+
+# Enable CLICK driver
+dtparam=uart0=on
+dtoverlay=click_spi

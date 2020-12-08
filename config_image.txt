@@ -3,7 +3,7 @@
 
 image boot.vfat {
   vfat {
-    extraargs = "-F16 -s1"
+    extraargs = "-F 16 -s 1"
     files = {
       "kernel.img",
       "config.txt",
@@ -15,7 +15,7 @@ image boot.vfat {
       "overlays"
     }
   }
-  size = 5335040
+  size = 4697600
 }
 
 image sdcard.img {
@@ -23,7 +23,7 @@ image sdcard.img {
   }
 
   partition boot {
-    partition-type = 0xC
+    partition-type = 0xE
     bootable = "true"
     image = "boot.vfat"
   }

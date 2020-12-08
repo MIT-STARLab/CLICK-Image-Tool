@@ -11,7 +11,7 @@ ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/getty@.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/remote-fs.target
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-remount-fs.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/sys-fs-fuse-connections.mount
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-ask-password-console.service 
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-ask-password-console.path 
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-machine-id-commit.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-hwdb-update.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-tmpfiles-setup.service

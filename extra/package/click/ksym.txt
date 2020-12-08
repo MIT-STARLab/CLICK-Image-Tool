@@ -1,3 +1,4 @@
+spi_async
 wait_for_completion_interruptible
 __kfifo_alloc
 __kfifo_to_user
