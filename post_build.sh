@@ -4,29 +4,50 @@
 set -u
 set -e
 
-# Disable some systemd default services on boot
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-networkd.socket
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-networkd.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-timesyncd.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-resolved.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/getty@.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/remote-fs.target
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-remount-fs.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/sys-fs-fuse-connections.mount
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-ask-password-console.path 
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-machine-id-commit.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-hwdb-update.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-tmpfiles-setup.service
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/dropbear.service
+# Disable some default boot services from /lib/systemd
+declare -a rm_lib_svc=(
+    "sysinit.target.wants/dev-hugepages.mount"
+    "sysinit.target.wants/sys-fs-fuse-connections.mount"
+    "sysinit.target.wants/systemd-ask-password-console.path"
+    "sysinit.target.wants/systemd-machine-id-commit.service"
+    "sysinit.target.wants/systemd-sysctl.service"
+    "sysinit.target.wants/systemd-update-done.service"
+    "multi-user.target.wants/systemd-ask-password-wall.path")
+
+for f in "${rm_lib_svc[@]}"; do
+    rm -f ${TARGET_DIR}/usr/lib/systemd/system/$f
+done
+
+# Disable some default boot services from /etc/systemd
+declare -a rm_etc_svc=(
+    "ctrl-alt-del.target"
+    "sys-fs-fuse-connections.mount"
+    "getty@.service"
+    "dropbear.service"
+    "remote-fs.target"
+    "systemd-remount-fs.service"
+    "systemd-hwdb-update.service"
+    "systemd-timesyncd.service"
+    "systemd-resolved.service"
+    "systemd-networkd.service"
+    "systemd-ask-password-console.path"
+    "systemd-machine-id-commit.service")
+
+for f in "${rm_etc_svc[@]}"; do
+    rm -f ${TARGET_DIR}/etc/systemd/system/$f
+done
+
+# Auto login on root if a UART tty is running
+mkdir -p ${TARGET_DIR}/etc/systemd/system/getty.target.wants/
+cp ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service \
+    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
+sed -i "s/sbin\/agetty -o '-p -- \\\\\\\\u'/sbin\/agetty -a root/" \
+    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
+ln -sfn ../serial-getty@ttyAMA0.service \
+    ${TARGET_DIR}/etc/systemd/system/getty.target.wants/serial-getty@ttyAMA0.service
 
 # Delete some extra overhead
 rm -rf ${TARGET_DIR}/usr/lib/python3.9/ensurepip/
 rm -rf ${TARGET_DIR}/usr/lib/python3.9/site-packages/zmq/tests
 rm -rf ${TARGET_DIR}/usr/include/boost/
 rm -rf ${TARGET_DIR}/usr/include/openssl/
-
-# Auto login root if a UART tty is running
-cp ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
-sed -i "s/sbin\/agetty -o '-p -- \\\\\\\\u'/sbin\/agetty -a root/" \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
