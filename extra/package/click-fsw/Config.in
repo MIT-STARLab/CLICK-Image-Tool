@@ -1,0 +1,4 @@
+config BR2_PACKAGE_CLICK_FSW
+    bool "click-fsw"
+    depends on BR2_LINUX_KERNEL
+    

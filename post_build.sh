@@ -17,6 +17,13 @@ ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-ask-password-console.
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-machine-id-commit.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-hwdb-update.service
 ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/systemd-tmpfiles-setup.service
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/dropbear.service
+
+# Delete some extra overhead
+rm -rf ${TARGET_DIR}/usr/lib/python3.9/ensurepip/
+rm -rf ${TARGET_DIR}/usr/lib/python3.9/site-packages/zmq/tests
+rm -rf ${TARGET_DIR}/usr/include/boost/
+rm -rf ${TARGET_DIR}/usr/include/openssl/
 
 # Auto login root if a UART tty is running
 cp ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service \
