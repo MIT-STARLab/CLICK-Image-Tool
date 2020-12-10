@@ -9,11 +9,9 @@ cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
 cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 
 # Compile SPI driver overlay
-if [ ! -d "${BINARIES_DIR}/overlays" ] ; then
-	mkdir "${BINARIES_DIR}/overlays"
-	dtc -O dtb -o "${BINARIES_DIR}/overlays/click_spi.dtbo" -b 0 -@\
-		"${TARGET_DIR}/usr/local/fsw/bus/driver/click_spi.dts"
-fi
+[ ! -d "${BINARIES_DIR}/overlays" ] && mkdir "${BINARIES_DIR}/overlays"
+dtc -O dtb -o "${BINARIES_DIR}/overlays/click_spi.dtbo" -b 0 -@\
+    "${TARGET_DIR}/usr/local/fsw/bus/driver/click_spi.dts"
 
 # Constants to help calculate partition sizes
 RPI_FLASH_SECTOR_SIZE=512
@@ -28,7 +26,7 @@ dd if=/dev/zero of=${BINARIES_DIR}/rw_zeros.ext4 seek=$EXT4_HEADER_SIZE count=0 
 
 # Function to align a value to flash sector size
 function align_to_flash {
-	SIZE_ALIGNED=$(($1+RPI_FLASH_SECTOR_SIZE-1-(($1+RPI_FLASH_SECTOR_SIZE-1)%RPI_FLASH_SECTOR_SIZE))) 
+    SIZE_ALIGNED=$(($1+RPI_FLASH_SECTOR_SIZE-1-(($1+RPI_FLASH_SECTOR_SIZE-1)%RPI_FLASH_SECTOR_SIZE))) 
 }
 
 # Files used to calculate boot partition size
@@ -61,11 +59,11 @@ bootfiles=$(printf "\"%s\"," "${bootfiles[@]}")
 bootfiles=${bootfiles%?}
 cat > "${BUILD_DIR}/genimage.cfg" <<EOF
 image boot.vfat { vfat { extraargs = "-F 16 -s 1" files = { $bootfiles } } size = $BOOT_PART_OVERHEAD }
-image sdcard.img {
-	hdimage {}
-	partition boot { partition-type = 0xE bootable = "true" image = "boot.vfat" }
-	partition os { partition-type = 0x83 image = "rootfs.squashfs" }
-	partition rw { partition-type = 0x83 size = $RW_PART_SIZE image = "rw_zeros.ext4" }
+image click_rpi.img {
+    hdimage {}
+    partition boot { partition-type = 0xE bootable = "true" image = "boot.vfat" }
+    partition os { partition-type = 0x83 image = "rootfs.squashfs" }
+    partition rw { partition-type = 0x83 size = $RW_PART_SIZE image = "rw_zeros.ext4" }
 }
 EOF
 
@@ -81,10 +79,10 @@ GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 rm -rf "${GENIMAGE_TMP}"
 
 genimage \
-	--rootpath "${ROOTPATH_TMP}"   \
-	--tmppath "${GENIMAGE_TMP}"    \
-	--inputpath "${BINARIES_DIR}"  \
-	--outputpath "${BINARIES_DIR}" \
-	--config "${BUILD_DIR}/genimage.cfg"
+    --rootpath "${ROOTPATH_TMP}"   \
+    --tmppath "${GENIMAGE_TMP}"    \
+    --inputpath "${BINARIES_DIR}"  \
+    --outputpath "${BINARIES_DIR}" \
+    --config "${BUILD_DIR}/genimage.cfg"
 
 exit $?
