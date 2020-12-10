@@ -1,6 +1,7 @@
 #!/bin/bash
-# Post buildroot image generation script, based on:
+# Post-buildroot OS image generation script, inspired by:
 # buildroot/board/raspberrypi3/post-image.sh
+# This takes the packaged OS and creates an eMMC image with all partitions
 set -e
 
 # Copy kernel and boot config files
@@ -8,7 +9,7 @@ set -e
 cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
 cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 
-# Compile SPI driver overlay
+# Compile SPI driver device tree overlay
 [ ! -d "${BINARIES_DIR}/overlays" ] && mkdir "${BINARIES_DIR}/overlays"
 dtc -O dtb -o "${BINARIES_DIR}/overlays/click_spi.dtbo" -b 0 -@\
     "${TARGET_DIR}/usr/local/fsw/bus/driver/click_spi.dts"
@@ -19,9 +20,10 @@ RPI_FLASH_TOTAL_SECTORS=7634943
 BOOT_PART_OVERHEAD=$((86*RPI_FLASH_SECTOR_SIZE))
 EXT4_HEADER_SIZE=5120
 
-# The actual large R/W ext4 partition is created by the OS on first boot
+# The actual large R/W ext4 filesystem is created by the OS on first boot
+# (see overlay/usr/lib/systemd/system/fs-initialize.service)
 # Here, we only write a small empty block to make sure the ext4 header is empty after reflashing 
-# Otherwise the ext4 auto-mount might freak out if the header is malformed on first boot
+# Otherwise the ext4 auto-mount might freak out if the header is uninitialized on first boot
 dd if=/dev/zero of=${BINARIES_DIR}/rw_zeros.ext4 seek=$EXT4_HEADER_SIZE count=0 bs=1 2>/dev/null
 
 # Function to align a value to flash sector size
@@ -46,14 +48,14 @@ for f in "${bootfiles[@]}"; do
     BOOT_PART_OVERHEAD=$((BOOT_PART_OVERHEAD+SIZE_ALIGNED))
 done
 
-# Calculate OS partition size
+# Get OS partition size
 align_to_flash $(stat --printf="%s" "${BINARIES_DIR}/rootfs.squashfs")
 OS_PART_SIZE=$SIZE_ALIGNED
 
 # Calculate available space for the R/W ext4 partition
 RW_PART_SIZE=$(((RPI_FLASH_TOTAL_SECTORS*RPI_FLASH_SECTOR_SIZE)-BOOT_PART_OVERHEAD-OS_PART_SIZE))
 
-# Prepare config for the genimage tool
+# Prepare config for the genimage tool (https://github.com/pengutronix/genimage)
 bootfiles[0]="overlays"
 bootfiles=$(printf "\"%s\"," "${bootfiles[@]}")
 bootfiles=${bootfiles%?}

@@ -1,6 +1,7 @@
 #!/bin/bash
-# Post buildroot build script, based on:
+# Post buildroot build script, inspired by:
 # buildroot/board/raspberrypi3/post-build.sh
+# This configures the OS before packaging by buildroot
 set -u
 set -e
 
@@ -39,6 +40,8 @@ declare -a rm_etc_svc=(
     "multi-user.target.wants/remote-fs.target"
     "multi-user.target.wants/systemd-networkd.service"
     "multi-user.target.wants/systemd-resolved.service"
+    "default.target.wants/e2scrub_reap.service"
+    "timers.target.wants/e2scrub_all.timer"
     "network-online.target.wants/systemd-networkd-wait-online.service")
 
 for f in "${rm_etc_svc[@]}"; do
