@@ -12,3 +12,6 @@ What=overlay
 Where=/root
 Type=overlay
 Options=lowerdir=/usr/local/fsw,upperdir=/mnt/overlay,workdir=/mnt/tmp
+
+[Install]
+WantedBy=local-fs.target

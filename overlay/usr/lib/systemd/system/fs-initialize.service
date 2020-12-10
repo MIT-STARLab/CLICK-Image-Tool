@@ -13,4 +13,4 @@ ExecStartPost=/bin/mkdir /mnt/tmp /mnt/overlay
 ExecStartPost=/bin/systemctl start fs-overlay.mount
 
 [Install]
-WantedBy=sysinit.target.wants
+WantedBy=sysinit.target

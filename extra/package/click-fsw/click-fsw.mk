@@ -9,7 +9,8 @@ CLICK_FSW_LINUX_CONFIG_FIXUPS = $(call KCONFIG_SET_OPT,CONFIG_UNUSED_KSYMS_WHITE
 $(eval $(kernel-module))
 $(eval $(generic-package))
 
-# Command to install the flight software to /root
+# Install the flight software
 define CLICK_FSW_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/usr/local/fsw
 	rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' $(@D)/ $(TARGET_DIR)/usr/local/fsw/
 endef

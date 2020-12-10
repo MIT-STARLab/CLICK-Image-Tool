@@ -12,7 +12,7 @@ cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 if [ ! -d "${BINARIES_DIR}/overlays" ] ; then
 	mkdir "${BINARIES_DIR}/overlays"
 	dtc -O dtb -o "${BINARIES_DIR}/overlays/click_spi.dtbo" -b 0 -@\
-		"${TARGET_DIR}/root/bus/driver/click_spi.dts"
+		"${TARGET_DIR}/usr/local/fsw/bus/driver/click_spi.dts"
 fi
 
 # Calculate partition sizes

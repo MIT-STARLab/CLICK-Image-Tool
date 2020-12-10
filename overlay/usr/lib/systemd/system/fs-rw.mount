@@ -10,3 +10,6 @@ What=/dev/mmcblk0p3
 Where=/mnt
 Type=ext4
 Options=defaults,nofail
+
+[Install]
+WantedBy=local-fs.target
