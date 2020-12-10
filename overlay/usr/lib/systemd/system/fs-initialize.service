@@ -8,9 +8,9 @@ DefaultDependencies=no
 [Service]
 Type=oneshot
 ExecStart=/sbin/mkfs.ext4 -FFq /dev/mmcblk0p3
-ExecStartPost=/bin/systemctl start fsw-rw.mount
+ExecStartPost=/bin/systemctl start mnt.mount
 ExecStartPost=/bin/mkdir /mnt/tmp /mnt/overlay
-ExecStartPost=/bin/systemctl start fs-overlay.mount
+ExecStartPost=/bin/systemctl start root.mount
 
 [Install]
 WantedBy=sysinit.target

@@ -2,7 +2,7 @@
 Description=RW Filesystem
 DefaultDependencies=no
 Conflicts=umount.target
-Before=local-fs.target umount.target fs-overlay.mount
+Before=local-fs.target umount.target root.mount
 After=local-fs-pre.target
 
 [Mount]
