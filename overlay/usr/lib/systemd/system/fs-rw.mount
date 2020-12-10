@@ -1,0 +1,12 @@
+[Unit]
+Description=RW Filesystem
+DefaultDependencies=no
+Conflicts=umount.target
+Before=local-fs.target umount.target fs-overlay.mount
+After=local-fs-pre.target
+
+[Mount]
+What=/dev/mmcblk0p3
+Where=/mnt
+Type=ext4
+Options=defaults,nofail

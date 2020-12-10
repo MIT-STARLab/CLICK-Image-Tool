@@ -11,5 +11,5 @@ $(eval $(generic-package))
 
 # Command to install the flight software to /root
 define CLICK_FSW_INSTALL_TARGET_CMDS
-	rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o'} $(@D)/ $(TARGET_DIR)/root/
+	rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' $(@D)/ $(TARGET_DIR)/usr/local/fsw/
 endef
