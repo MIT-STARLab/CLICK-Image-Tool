@@ -1,0 +1,9 @@
+config BR2_PACKAGE_PNG2JPEG
+    bool "png2jpeg"
+    select BR2_PACKAGE_ZLIB
+    select BR2_PACKAGE_LIBPNG
+    select BR2_PACKAGE_LIBJPEG
+    help
+        png2jpeg is a simple command-line image converter from PNG to JPEG.
+
+        https://sourceforge.net/projects/png2jpeg/
