@@ -14,6 +14,9 @@ cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 dtc -O dtb -o "${BINARIES_DIR}/overlays/click_spi.dtbo" -b 0 -@\
     "${TARGET_DIR}/usr/local/fsw/bus/driver/click_spi.dts"
 
+# Copy UART1 configuration overlay
+cp ${BUILD_DIR}/linux-custom/arch/arm/boot/dts/overlays/uart1.dtbo ${BINARIES_DIR}/overlays/
+
 # Constants to help calculate partition sizes
 RPI_FLASH_SECTOR_SIZE=512
 RPI_FLASH_TOTAL_SECTORS=7634943
@@ -34,6 +37,7 @@ function align_to_flash {
 # Files used to calculate boot partition size
 declare -a bootfiles=(
     "overlays/click_spi.dtbo"
+    "overlays/uart1.dtbo"
     "bcm2710-rpi-cm3.dtb"
     "cmdline.txt"
     "config.txt"

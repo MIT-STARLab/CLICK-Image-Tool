@@ -8,7 +8,7 @@ gpu_mem=16
 
 # Fix GPU clock to make SCLK correct and stable
 # https://github.com/raspberryPI/linux/issues/2094
-core_freq_min=350       
+core_freq_min=350
 core_freq=350
 
 # Disable unneeded features
@@ -18,5 +18,8 @@ force_eeprom_read=0
 dtparam=audio=off
 
 # Enable CLICK driver
-dtparam=uart0=on
 dtoverlay=click_spi
+
+# Enable debug UART
+dtparam=uart0=on
+dtoverlay=uart1,txd1_pin=32,rxd1_pin=33

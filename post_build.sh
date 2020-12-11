@@ -48,15 +48,15 @@ for f in "${rm_etc_svc[@]}"; do
     rm -f ${TARGET_DIR}/etc/systemd/system/$f
 done
 
-# Auto login on root if a UART tty is running
+# Auto login on root if a UART1 debug tty is running
 cp ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
-sed -i "s/\[Service\]/# Only run if UART0 is up\nConditionPathExists=\/dev\/ttyAMA0\n\n\[Service\]/" \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
+    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
+sed -i "s/\[Service\]/# Only run if UART1 is up\nConditionPathExists=\/dev\/ttyS0\n\n\[Service\]/" \
+    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
 sed -i "s/sbin\/agetty -o '-p -- \\\\\\\\u'/sbin\/agetty -a root/" \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
-ln -sfn ../serial-getty@ttyAMA0.service \
-    ${TARGET_DIR}/etc/systemd/system/getty.target.wants/serial-getty@ttyAMA0.service
+    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
+ln -sfn ../serial-getty@ttyS0.service \
+    ${TARGET_DIR}/etc/systemd/system/getty.target.wants/serial-getty@ttyS0.service
 
 # Delete some extra overhead
 rm -rf ${TARGET_DIR}/usr/lib/python2.7/ensurepip
