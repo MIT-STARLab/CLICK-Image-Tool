@@ -14,7 +14,7 @@ declare -a rm_lib_svc=(
     "sysinit.target.wants/systemd-sysctl.service"
     "sysinit.target.wants/systemd-update-done.service"
     "multi-user.target.wants/systemd-ask-password-wall.path"
-    "multi-user.target.wants/systemd-user-sessions.service"
+    # "multi-user.target.wants/systemd-user-sessions.service"
     "timers.target.wants/systemd-tmpfiles-clean.timer")
 
 for f in "${rm_lib_svc[@]}"; do
@@ -46,6 +46,17 @@ declare -a rm_etc_svc=(
 
 for f in "${rm_etc_svc[@]}"; do
     rm -f ${TARGET_DIR}/etc/systemd/system/$f
+done
+
+# Make some services auto-stop when unneeded
+declare -a autostop_svc=(
+    "systemd-resolved.service"
+    "systemd-networkd.service"
+)
+
+for f in "${autostop_svc[@]}"; do
+    sed -i "s/\n\[Service\]/StopWhenUnneeded=true\n\n\[Service\]/" \
+        ${TARGET_DIR}/usr/lib/systemd/system/$f
 done
 
 # Auto login on root if a UART1 debug tty is running
