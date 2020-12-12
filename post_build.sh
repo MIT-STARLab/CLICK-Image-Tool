@@ -18,7 +18,6 @@ declare -a rm_lib_svc=(
     "sysinit.target.wants/systemd-sysctl.service"
     "sysinit.target.wants/systemd-update-done.service"
     "multi-user.target.wants/systemd-ask-password-wall.path"
-    # "multi-user.target.wants/systemd-user-sessions.service"
     "timers.target.wants/systemd-tmpfiles-clean.timer")
 
 for f in "${rm_lib_svc[@]}"; do
