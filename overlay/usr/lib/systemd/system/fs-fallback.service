@@ -1,0 +1,13 @@
+[Unit]
+Description=Emergency Fallback Mount
+ConditionPathExists=!/mnt/overlay
+After=local-fs-pre.target fs-initialize.service
+Before=local-fs.target
+DefaultDependencies=no
+
+[Service]
+Type=oneshot
+ExecStart=/bin/mount --bind /usr/local/fsw /root
+
+[Install]
+WantedBy=local-fs.target
