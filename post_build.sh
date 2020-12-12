@@ -1,15 +1,19 @@
 #!/bin/bash
 # Post buildroot build script, inspired by:
 # buildroot/board/raspberrypi3/post-build.sh
-# This configures the OS before packaging by buildroot
+# This configures the OS before its packaged by buildroot
 set -u
 set -e
 
-# Enable linger for root to auto-start systemd-user
+# Enable linger for root to autostart a user systemd session
 mkdir -p ${TARGET_DIR}/var/lib/systemd/linger/
 touch ${TARGET_DIR}/var/lib/systemd/linger/root
 
-# Disable some default systemd services at /lib
+# Make dropbear available to user systemd session
+cp ${TARGET_DIR}/usr/lib/systemd/system/dropbear.service \
+    ${TARGET_DIR}/usr/lib/systemd/user/
+
+# Disable some default systemd services from /lib
 declare -a rm_lib_svc=(
     "sysinit.target.wants/dev-hugepages.mount"
     "sysinit.target.wants/sys-fs-fuse-connections.mount"
@@ -24,13 +28,13 @@ for f in "${rm_lib_svc[@]}"; do
     rm -f ${TARGET_DIR}/usr/lib/systemd/system/$f
 done
 
-# Disable some default systemd services at /etc
+# Disable some default systemd services from /etc
 declare -a rm_etc_svc=(
     "ctrl-alt-del.target"
     "sys-fs-fuse-connections.mount"
     "getty@.service"
-    "dropbear.service"
     "remote-fs.target"
+    "dropbear.service"
     "systemd-remount-fs.service"
     "systemd-hwdb-update.service"
     "systemd-timesyncd.service"
@@ -55,6 +59,7 @@ done
 declare -a autostop_svc=(
     "systemd-resolved.service"
     "systemd-networkd.service"
+    "systemd-timesyncd.service"
 )
 
 for f in "${autostop_svc[@]}"; do
