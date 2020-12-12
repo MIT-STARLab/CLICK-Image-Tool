@@ -1,8 +1,8 @@
 [Unit]
 Description=Initialize Filesystems
 ConditionPathExists=!/mnt/overlay
-Before=sysinit.target
-After=local-fs.target
+After=local-fs-pre.target mnt.mount root.mount
+Before=fs-fallback.service local-fs.target
 DefaultDependencies=no
 
 [Service]
@@ -13,4 +13,4 @@ ExecStartPost=/bin/mkdir /mnt/tmp /mnt/overlay
 ExecStartPost=/bin/systemctl start root.mount
 
 [Install]
-WantedBy=sysinit.target
+WantedBy=local-fs.target

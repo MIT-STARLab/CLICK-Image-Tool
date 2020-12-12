@@ -66,7 +66,7 @@ declare -a autostop_svc=(
 
 for f in "${autostop_svc[@]}"; do
     grep -qE '^StopWhenUnneeded' ${TARGET_DIR}/usr/lib/systemd/$f || \
-    sed -i "s/\n\[Service\]/StopWhenUnneeded=true\n\n\[Service\]/" \
+    sed -zui "s/\n\[Service\]/StopWhenUnneeded=true\n\n\[Service\]/" \
         ${TARGET_DIR}/usr/lib/systemd/$f
 done
 
