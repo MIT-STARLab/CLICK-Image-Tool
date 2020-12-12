@@ -5,7 +5,11 @@
 set -u
 set -e
 
-# Disable some default systemd services at /lib/
+# Enable linger for root to auto-start systemd-user
+mkdir -p ${TARGET_DIR}/var/lib/systemd/linger/
+touch ${TARGET_DIR}/var/lib/systemd/linger/root
+
+# Disable some default systemd services at /lib
 declare -a rm_lib_svc=(
     "sysinit.target.wants/dev-hugepages.mount"
     "sysinit.target.wants/sys-fs-fuse-connections.mount"
@@ -21,7 +25,7 @@ for f in "${rm_lib_svc[@]}"; do
     rm -f ${TARGET_DIR}/usr/lib/systemd/system/$f
 done
 
-# Disable some default systemd services at /etc/
+# Disable some default systemd services at /etc
 declare -a rm_etc_svc=(
     "ctrl-alt-del.target"
     "sys-fs-fuse-connections.mount"

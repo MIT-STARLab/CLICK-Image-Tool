@@ -3,6 +3,7 @@
 
 # Initialization
 cores=$(nproc)
+cores=$((cores+1))
 [ ! -d "output" ] && mkdir output
 [ ! -f "buildroot/Makefile" ] && git submodule update --init --jobs $cores
 
