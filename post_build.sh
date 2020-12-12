@@ -47,6 +47,7 @@ declare -a rm_etc_svc=(
     "multi-user.target.wants/remote-fs.target"
     "multi-user.target.wants/systemd-networkd.service"
     "multi-user.target.wants/systemd-resolved.service"
+    "sysinit.target.wants/systemd-timesyncd.service"
     "default.target.wants/e2scrub_reap.service"
     "timers.target.wants/e2scrub_all.timer"
     "network-online.target.wants/systemd-networkd-wait-online.service")
@@ -57,14 +58,16 @@ done
 
 # Make some services auto-stop when unneeded
 declare -a autostop_svc=(
-    "systemd-resolved.service"
-    "systemd-networkd.service"
-    "systemd-timesyncd.service"
+    "system/systemd-resolved.service"
+    "system/systemd-networkd.service"
+    "system/systemd-timesyncd.service"
+    "user/dropbear.service"
 )
 
 for f in "${autostop_svc[@]}"; do
+    grep -qE '^StopWhenUnneeded' ${TARGET_DIR}/usr/lib/systemd/$f || \
     sed -i "s/\n\[Service\]/StopWhenUnneeded=true\n\n\[Service\]/" \
-        ${TARGET_DIR}/usr/lib/systemd/system/$f
+        ${TARGET_DIR}/usr/lib/systemd/$f
 done
 
 # Auto login on root if a UART1 debug tty is running

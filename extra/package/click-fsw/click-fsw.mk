@@ -29,6 +29,6 @@ define CLICK_FSW_SYMLINK_DRIVER
     ln -sfn /usr/local/fsw/bin/click_spi.ko \
         $(TARGET_DIR)/lib/modules/$(LINUX_VERSION_PROBED)/extra/click_spi.ko
 endef
-CLICK_FSW_POST_TARGET_INSTALL_HOOKS += CLICK_FSW_SYMLINK_DRIVER
+CLICK_FSW_POST_INSTALL_TARGET_HOOKS += CLICK_FSW_SYMLINK_DRIVER
 
 $(eval $(generic-package))
