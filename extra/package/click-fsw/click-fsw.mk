@@ -6,6 +6,7 @@ CLICK_FSW_LICENSE_FILES = LICENSE.md
 
 # Force kernel to export the needed symbols for the SPI driver at bus/driver
 # The kernel is configured to strip unused symbols otherwise to save space
+# The symbols.txt file can be generated using "make symbols" with the SPI driver Makefie, when built outside of buildroot
 KVERSION = $(LINUX_VERSION_PROBED)
 KSYMS = "$(BR2_EXTERNAL_CLICK_PATH)/package/click-fsw/symbols.txt"
 CLICK_FSW_LINUX_CONFIG_FIXUPS = $(call KCONFIG_SET_OPT,CONFIG_UNUSED_KSYMS_WHITELIST,$(KSYMS))
