@@ -6,7 +6,7 @@ Before=default.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/cat /run/machine-id >> /mnt/journal/id.txt
+ExecStart=/bin/bash -c "cat /run/machine-id >> /mnt/journal/id.txt"
 
 [Install]
 WantedBy=default.target
