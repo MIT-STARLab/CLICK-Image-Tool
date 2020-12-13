@@ -33,8 +33,16 @@ The way the OS handles the filesystems is explained below:
 2. The original root user files, including the golden CLICK FSW, are stored read-only at `/usr/local/fsw`.
 3. On first boot, the read-write EXT4 filesystem is created and mounted on `/mnt`, see [fs-initialize.service](overlay/usr/lib/systemd/system/fs-initialize.service) and [mnt.mount](overlay/usr/lib/systemd/system/mnt.mount).
 4. Next, an [overlay filesystem](https://wiki.archlinux.org/index.php/Overlay_filesystem) is automatically mounted on `/root`. The overlay filesystem will mirror all the read-only files from `/usr/local/fsw`, but allow overwriting them within `/root`, see [root.mount](overlay/usr/lib/systemd/system/root.mount). However, all the changes are actually kept behind the scenes on `/mnt/overlay` (this is invisible to the user). This allows making changes to the original root user files and the CLICK FSW without needing changes on the read-only filesystem.
-5. Finally, the OS binds `/mnt/journal` to  `/var/log/journal` to enable persistent journal archiving, see [var-log-journal.mount](overlay/usr/lib/systemd/system/var-log-journal.mount).
+5. All manual file modifications or new data storing should be done directly on `/root`. The `/mnt` directory should not be written to by the user.
+6. Finally, the OS binds `/mnt/journal` to  `/var/log/journal` to enable persistent journal archiving, see [var-log-journal.mount](overlay/usr/lib/systemd/system/var-log-journal.mount).
 
-Fallback options:
+Emergency fallback handling:
 1. If something malfunctions and the read-write FSW (`/root/bus` folder) is not accessible after boot, the EXT4 filesystem will be re-generated automatically using the [fs-initialize.service](overlay/usr/lib/systemd/system/fs-initialize.service). This will restore the system to the golden image state.
 2. If even the EXT4 filesystem generation fails for some reason, the OS will bind `/usr/local/fsw` directly to `/root`, see [fs-fallback.service](overlay/usr/lib/systemd/system/fs-fallback.service). This will allow the system to operate at least in a read-only mode using the golden image software.
+
+## Journal archiving
+If the EXT4 filesystem is operational, journal logs from each boot are archived in `/mnt/journal`. Systemd creates a folder with the name of the current boot ID that contains the system and user logs.
+
+To help identify which ID is from which boot (since we don't know the time during boot), [id-save.service](overlay/usr/lib/systemd/system/id-save.service) appends the current ID to `/mnt/journal/id.txt` on each boot.
+
+The logs can then be viewed on ground or through SSH via `journalctl --file <boot_id>/system.journal`.

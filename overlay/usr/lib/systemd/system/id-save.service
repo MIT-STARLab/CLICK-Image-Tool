@@ -1,0 +1,12 @@
+[Unit]
+Description=Save Boot ID
+ConditionPathExists=/mnt/journal
+After=local-fs.target
+Before=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/cat /run/machine-id >> /mnt/journal/id.txt
+
+[Install]
+WantedBy=default.target

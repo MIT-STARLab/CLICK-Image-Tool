@@ -12,6 +12,7 @@ ExecStartPost=/bin/systemctl start mnt.mount
 ExecStartPost=/bin/mkdir /mnt/tmp /mnt/overlay /mnt/journal
 ExecStartPost=/bin/systemctl start root.mount
 ExecStartPost=/bin/systemctl start var-log-journal.mount
+ExecStartPost=/bin/systemctl restart systemd-journal-flush.service
 
 [Install]
 WantedBy=local-fs.target
