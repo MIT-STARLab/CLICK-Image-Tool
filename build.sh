@@ -1,6 +1,9 @@
 #!/bin/bash
 # Main script to build a CLICK golden image
 
+# Flag to enable/disable SSH over PPP on boot
+export BOOT_WITH_PPP=1
+
 # Initialization
 cores=$(nproc)
 cores=$((cores+1))

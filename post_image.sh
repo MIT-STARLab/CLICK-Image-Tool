@@ -1,7 +1,8 @@
 #!/bin/bash
-# Post-buildroot OS image generation script, inspired by:
+# Post-buildroot OS packaging script, inspired by:
 # buildroot/board/raspberrypi3/post-image.sh
 # This takes the packaged OS and creates an eMMC image with all partitions
+set -u
 set -e
 
 # Copy kernel and boot config files
@@ -59,7 +60,7 @@ OS_PART_SIZE=$SIZE_ALIGNED
 # Calculate available space for the R/W ext4 partition
 RW_PART_SIZE=$(((RPI_FLASH_TOTAL_SECTORS*RPI_FLASH_SECTOR_SIZE)-BOOT_PART_OVERHEAD-OS_PART_SIZE))
 
-# Prepare config for the genimage tool (https://github.com/pengutronix/genimage)
+# Prepare config for the buildroot genimage tool (https://github.com/pengutronix/genimage)
 bootfiles[0]="overlays"
 bootfiles=$(printf "\"%s\"," "${bootfiles[@]}")
 bootfiles=${bootfiles%?}

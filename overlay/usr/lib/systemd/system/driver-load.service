@@ -1,0 +1,11 @@
+[Unit]
+Description=Load SPI driver
+After=local-fs.target
+Before=default.target
+
+[Service]
+Type=oneshot
+ExecStart=/sbin/insmod /root/bin/click_spi.ko
+
+[Install]
+WantedBy=default.target

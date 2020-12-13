@@ -1,7 +1,7 @@
 #!/bin/bash
 # Post buildroot build script, inspired by:
 # buildroot/board/raspberrypi3/post-build.sh
-# This configures the OS before its packaged by buildroot
+# This configures the OS before it is packaged by buildroot
 set -u
 set -e
 

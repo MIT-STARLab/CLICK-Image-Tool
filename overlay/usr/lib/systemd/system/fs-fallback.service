@@ -1,5 +1,5 @@
 [Unit]
-Description=Emergency Fallback Mount
+Description=Emergency Fallback
 ConditionPathExists=!/mnt/overlay
 After=local-fs-pre.target fs-initialize.service
 Before=local-fs.target
@@ -8,6 +8,7 @@ DefaultDependencies=no
 [Service]
 Type=oneshot
 ExecStart=/bin/mount --bind /usr/local/fsw /root
+ExecStartPost=/sbin/insmod /usr/local/fsw/bin/click_spi.ko
 
 [Install]
 WantedBy=local-fs.target

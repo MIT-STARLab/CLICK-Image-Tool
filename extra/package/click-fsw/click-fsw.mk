@@ -13,30 +13,27 @@ CLICK_FSW_LINUX_CONFIG_FIXUPS = $(call KCONFIG_SET_OPT,CONFIG_UNUSED_KSYMS_WHITE
 
 $(eval $(kernel-module))
 
-# Install the flight software to /usr/local/fsw
+# Install the flight software
 define CLICK_FSW_INSTALL_TARGET_CMDS
     mkdir -p $(TARGET_DIR)/usr/local/fsw/bin
-    mkdir -p $(TARGET_DIR)/usr/local/fsw/.ssh
     mkdir -p $(TARGET_DIR)/usr/local/fsw/.config/systemd/user/default.target.wants
     ln -sfn .config/systemd/user $(TARGET_DIR)/usr/local/fsw/services
     rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' \
         $(@D)/ $(TARGET_DIR)/usr/local/fsw/
+    ifeq ($(BOOT_WITH_PPP),1)
+        ln -sfn /usr/lib/systemd/user/ppp.service \
+            $(TARGET_DIR)/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
+    else
+        rm -f $(TARGET_DIR)/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
+    endif
 endef
 
-# Move the built kernel driver to /usr/local/fsw/bin and create a symlink to it
-define CLICK_FSW_SYMLINK_DRIVER
+# Move the kernel driver to /usr/local/fsw/bin
+define CLICK_FSW_COPY_DRIVER
     mv $(TARGET_DIR)/lib/modules/$(KVERSION)/extra/click_spi.ko \
         $(TARGET_DIR)/usr/local/fsw/bin
-    ln -sfn /usr/local/fsw/bin/click_spi.ko \
-        $(TARGET_DIR)/lib/modules/$(KVERSION)/extra/click_spi.ko
 endef
 
-# Remove old symlink before
-define CLICK_FSW_SYMLINK_DRIVER_RM
-    rm -f $(TARGET_DIR)/lib/modules/$(KVERSION)/extra/click_spi.ko
-endef
-
-CLICK_FSW_POST_BUILD_HOOKS+= CLICK_FSW_SYMLINK_DRIVER_RM
-CLICK_FSW_POST_INSTALL_TARGET_HOOKS += CLICK_FSW_SYMLINK_DRIVER
+CLICK_FSW_POST_INSTALL_TARGET_HOOKS += CLICK_FSW_COPY_DRIVER
 
 $(eval $(generic-package))

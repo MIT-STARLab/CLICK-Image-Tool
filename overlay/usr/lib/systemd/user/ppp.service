@@ -5,11 +5,9 @@ After=dropbear.service
 BindsTo=dropbear.service
 
 [Service]
-Type=Simple
+Type=simple
 ExecStartPre=/bin/stty -F /dev/ttyAMA0 1000000
 ExecStartPre=/bin/stty -F /dev/ttyAMA0 raw
-ExecStartPre=/bin/systemctl start systemd-resolved
-ExecStartPre=/bin/systemctl start systemd-timesyncd
 ExecStart=/sbin/pppd /dev/ttyAMA0 1000000 10.0.5.2:10.0.5.1 nodetach noauth local nolog dump defaultroute nocrtscts persist maxfail 0 holdoff 1 lcp-restart 5 lcp-max-configure 100000
 
 [Install]
