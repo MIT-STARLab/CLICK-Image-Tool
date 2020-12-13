@@ -7,7 +7,8 @@ set -e
 
 # Prepare kernel and bootloader config files
 [ -f "${BINARIES_DIR}/zImage" ] && mv "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/kernel.img"
-echo "root=/dev/mmcblk0p2 rootfstype=squashfs dwc_otg.lpm_enable=0 rootwait noinitrd" > "${BINARIES_DIR}/cmdline.txt"
+echo "root=/dev/mmcblk0p2 rootfstype=squashfs console=none dwc_otg.lpm_enable=0 rootwait noinitrd" > \
+    "${BINARIES_DIR}/cmdline.txt"
 cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
 
 # Compile SPI driver device tree overlay
