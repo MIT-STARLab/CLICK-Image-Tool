@@ -56,7 +56,6 @@ done
 declare -a autostop_svc=(
     "system/systemd-resolved.service"
     "system/systemd-networkd.service"
-    "system/systemd-timesyncd.service"
     "user/dropbear.service"
 )
 
@@ -66,15 +65,16 @@ for f in "${autostop_svc[@]}"; do
         ${TARGET_DIR}/usr/lib/systemd/$f
 done
 
-# Auto login on root if a UART1 debug tty is running
+# Disable tty on UART0 (used for PPP/SSH)
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
+
+# If a debug UART1 tty is up, auto login on root
 cp ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service \
     ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
 sed -i "s/\[Service\]/# Only run if UART1 is up\nConditionPathExists=\/dev\/ttyS0\n\n\[Service\]/" \
     ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
 sed -i "s/sbin\/agetty -o '-p -- \\\\\\\\u'/sbin\/agetty -a root/" \
     ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
-ln -sfn ../serial-getty@ttyS0.service \
-    ${TARGET_DIR}/etc/systemd/system/getty.target.wants/serial-getty@ttyS0.service
 
 # Delete some extra overhead
 rm -rf ${TARGET_DIR}/usr/lib/python2.7/ensurepip

@@ -17,15 +17,10 @@ $(eval $(kernel-module))
 define CLICK_FSW_INSTALL_TARGET_CMDS
     mkdir -p $(TARGET_DIR)/usr/local/fsw/bin
     mkdir -p $(TARGET_DIR)/usr/local/fsw/.config/systemd/user/default.target.wants
-    ln -sfn .config/systemd/user $(TARGET_DIR)/usr/local/fsw/services
+    [ $(BOOT_WITH_PPP) == 1 ] && ln -sfn /usr/lib/systemd/user/ppp.service \
+        $(TARGET_DIR)/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
     rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' \
         $(@D)/ $(TARGET_DIR)/usr/local/fsw/
-    ifeq ($(BOOT_WITH_PPP),1)
-        ln -sfn /usr/lib/systemd/user/ppp.service \
-            $(TARGET_DIR)/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
-    else
-        rm -f $(TARGET_DIR)/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
-    endif
 endef
 
 # Move the kernel driver to /usr/local/fsw/bin
