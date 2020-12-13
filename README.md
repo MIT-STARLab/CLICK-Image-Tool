@@ -7,10 +7,10 @@ Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-co
 - On first run, the build can take up to an hour, depending on computing power
 - Final images will appear in the `/img` folder
 - `click_emmc.img` is the eMMC file that can be flashed using usbboot from a linux host
-- `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image for BCT.
+- `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image to be uplinked to the BCT bus.
 
 ## Overview
-- `build.sh` is the main script that executes buildroot. Has a variable `CLICK_FSW_VERSION` defining which flight software version to bundle, and `BOOT_WITH_PPP` which can be used to generate an image that boots in debugging mode with PPP/SSH running.
+- `build.sh` is the main script that executes buildroot. It has a variable `CLICK_FSW_VERSION` defining which flight software version to bundle, and `BOOT_WITH_PPP` which can be used to generate an image that boots in debugging mode with PPP/SSH running.
 - `config_buildroot.txt` contains buildroot config flags. Defines how to build the system, which Linux kernel git commit to use (`BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION`), which packages to include in the system (`BR2_PACKAGE_xxx`), and some other basic configuration. Can be modified to add more software packages if needed.
 - `config_kernel.txt` contains Linux kernel config flags. Defines which kernel modules are bundled with the kernel image and which are built as external modules. Mostly disables a lot of unneeded kernel features and drivers to make the image smaller. Should not need changing.
 - `config_rpi.txt` is the config for the RPi bootloader. Sets a static GPU clock to fix SPI frequency and configures the SPI using the device tree overlay from the SPI driver.
