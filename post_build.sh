@@ -5,10 +5,6 @@
 set -u
 set -e
 
-# Enable linger for root to autostart a user systemd session
-mkdir -p ${TARGET_DIR}/var/lib/systemd/linger/
-touch ${TARGET_DIR}/var/lib/systemd/linger/root
-
 # Make dropbear available to user systemd session
 cp ${TARGET_DIR}/usr/lib/systemd/system/dropbear.service \
     ${TARGET_DIR}/usr/lib/systemd/user/

@@ -7,6 +7,7 @@ CLICK_FSW_MODULE_SUBDIRS = bus/driver
 
 # Force kernel to export the needed symbols for the SPI driver
 # The kernel is configured to strip unused symbols otherwise to save space
+KVERSION = $(LINUX_VERSION_PROBED)
 KSYMS = "$(BR2_EXTERNAL_CLICK_PATH)/package/click-fsw/symbols.txt"
 CLICK_FSW_LINUX_CONFIG_FIXUPS = $(call KCONFIG_SET_OPT,CONFIG_UNUSED_KSYMS_WHITELIST,$(KSYMS))
 
@@ -24,11 +25,18 @@ endef
 
 # Move the built kernel driver to /usr/local/fsw/bin and create a symlink to it
 define CLICK_FSW_SYMLINK_DRIVER
-    mv $(TARGET_DIR)/lib/modules/$(LINUX_VERSION_PROBED)/extra/click_spi.ko \
+    mv $(TARGET_DIR)/lib/modules/$(KVERSION)/extra/click_spi.ko \
         $(TARGET_DIR)/usr/local/fsw/bin
     ln -sfn /usr/local/fsw/bin/click_spi.ko \
-        $(TARGET_DIR)/lib/modules/$(LINUX_VERSION_PROBED)/extra/click_spi.ko
+        $(TARGET_DIR)/lib/modules/$(KVERSION)/extra/click_spi.ko
 endef
+
+# Remove old symlink before
+define CLICK_FSW_SYMLINK_DRIVER_RM
+    rm -f $(TARGET_DIR)/lib/modules/$(KVERSION)/extra/click_spi.ko
+endef
+
+CLICK_FSW_POST_BUILD_HOOKS+= CLICK_FSW_SYMLINK_DRIVER_RM
 CLICK_FSW_POST_INSTALL_TARGET_HOOKS += CLICK_FSW_SYMLINK_DRIVER
 
 $(eval $(generic-package))
