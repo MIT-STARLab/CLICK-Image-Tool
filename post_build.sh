@@ -5,9 +5,21 @@
 set -u
 set -e
 
-# Make dropbear available to user systemd session
+# Disable console on UART0 (used for PPP/SSH)
+ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
+
+# Make dropbear (SSH server) available to user systemd session
 cp ${TARGET_DIR}/usr/lib/systemd/system/dropbear.service \
     ${TARGET_DIR}/usr/lib/systemd/user/
+
+# Make PPP/SSH run on boot if configured so
+mkdir -p ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants
+if [ ${BOOT_WITH_PPP} -eq 1 ]; then
+    ln -sfn /usr/lib/systemd/user/ppp.service \
+        ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
+else
+    rm -f ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
+fi
 
 # Disable some default systemd services from /lib
 declare -a rm_lib_svc=(
@@ -64,17 +76,6 @@ for f in "${autostop_svc[@]}"; do
     sed -zui "s/\n\[Service\]/StopWhenUnneeded=true\n\n\[Service\]/" \
         ${TARGET_DIR}/usr/lib/systemd/$f
 done
-
-# Disable tty on UART0 (used for PPP/SSH)
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
-
-# If a debug UART1 tty is up, auto login on root
-cp ${TARGET_DIR}/usr/lib/systemd/system/serial-getty@.service \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
-sed -i "s/\[Service\]/# Only run if UART1 is up\nConditionPathExists=\/dev\/ttyS0\n\n\[Service\]/" \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
-sed -i "s/sbin\/agetty -o '-p -- \\\\\\\\u'/sbin\/agetty -a root/" \
-    ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyS0.service
 
 # Delete some extra overhead
 rm -rf ${TARGET_DIR}/usr/lib/python2.7/ensurepip

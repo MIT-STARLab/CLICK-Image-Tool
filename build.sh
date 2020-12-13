@@ -1,7 +1,10 @@
 #!/bin/bash
 # Main script to build a CLICK golden image
 
-# Flag to enable/disable SSH over PPP on boot
+# RPi FSW version to use: either a tag or commit hash from https://github.com/MIT-STARLab/CLICK-A-RPi/
+export FSW_VERSION="69dedc82a2dbff2298b2f38559d5d77050ebb666"
+
+# Flag to enable/disable SSH over PPP service on boot
 export BOOT_WITH_PPP=1
 
 # Initialization
