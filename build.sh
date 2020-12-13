@@ -10,6 +10,7 @@ export BOOT_WITH_PPP=1
 # Initialization
 cores=$(nproc)
 cores=$((cores+1))
+[ ! -d "img" ] && mkdir img
 [ ! -d "output" ] && mkdir output
 [ ! -f "buildroot/Makefile" ] && git submodule update --init --jobs $cores
 

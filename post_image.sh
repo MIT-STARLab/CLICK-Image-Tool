@@ -5,10 +5,10 @@
 set -u
 set -e
 
-# Copy kernel and boot config files
+# Prepare kernel and bootloader config files
 [ -f "${BINARIES_DIR}/zImage" ] && mv "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/kernel.img"
+echo "root=/dev/mmcblk0p2 rootfstype=squashfs dwc_otg.lpm_enable=0 rootwait noinitrd" > "${BINARIES_DIR}/cmdline.txt"
 cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
-cp "../rpi_cmdline.txt" "${BINARIES_DIR}/cmdline.txt"
 
 # Compile SPI driver device tree overlay
 [ ! -d "${BINARIES_DIR}/overlays" ] && mkdir "${BINARIES_DIR}/overlays"
