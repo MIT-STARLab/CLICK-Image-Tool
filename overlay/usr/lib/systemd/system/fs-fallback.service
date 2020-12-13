@@ -1,6 +1,6 @@
 [Unit]
 Description=Emergency Fallback
-ConditionPathExists=!/mnt/overlay
+ConditionPathExists=!/root/bus
 After=local-fs-pre.target fs-initialize.service
 Before=local-fs.target
 DefaultDependencies=no

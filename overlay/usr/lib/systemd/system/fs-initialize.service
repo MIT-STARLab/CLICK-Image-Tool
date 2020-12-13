@@ -1,6 +1,6 @@
 [Unit]
 Description=Initialize Filesystems
-ConditionPathExists=!/mnt/overlay
+ConditionPathExists=!/root/bus
 After=local-fs-pre.target mnt.mount root.mount
 Before=fs-fallback.service local-fs.target
 DefaultDependencies=no
