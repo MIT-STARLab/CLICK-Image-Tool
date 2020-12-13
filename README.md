@@ -3,6 +3,7 @@ Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-co
 
 ## Instructions
 - A linux host with git and subversion installed is needed
+- Configure the `CLICK_FSW_VERSION` and `BOOT_WITH_PPP` variables in `build.sh`
 - To start the image build, run `./build.sh`
 - On first run, the build can take up to an hour, depending on computing power
 - Final images will appear in the `/img` folder
