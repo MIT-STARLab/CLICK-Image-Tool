@@ -9,6 +9,7 @@ Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-co
 5. Final images will appear in the `/img` folder
 6. `click_emmc.img` is the eMMC file that can be flashed using usbboot from a linux host
 7. `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image to be uplinked to the BCT bus.
+8. The default password is `lasercom`. CLICK SSH keys can also be used to log in using SSH without a password when in debug mode.
 
 ## Overview
 - `build.sh` is the main script that executes buildroot. It has a variable `CLICK_FSW_VERSION` defining which flight software version to bundle, and `BOOT_WITH_PPP` which can be used to generate an image that boots in debugging mode with PPP/SSH running.
@@ -32,5 +33,7 @@ The way the OS handles the filesystems is explained below:
 2. The original root user files, including the golden CLICK FSW, are stored read-only at `/usr/local/fsw`.
 3. On first boot, the read-write EXT4 filesystem is created and mounted on `/mnt`, see [fs-initialize.service](overlay/usr/lib/systemd/system/fs-initialize.service) and [mnt.mount](overlay/usr/lib/systemd/system/mnt.mount).
 4. Next, an [overlay filesystem](https://wiki.archlinux.org/index.php/Overlay_filesystem) is automatically mounted on `/root`. The overlay filesystem will mirror all the read-only files from `/usr/local/fsw`, but allow overwriting them within `/root`, see [root.mount](overlay/usr/lib/systemd/system/root.mount). However, all the changes are actually kept behind the scenes on `/mnt/overlay` (this is invisible to the user). This allows making changes to the original root user files and the CLICK FSW without needing changes on the read-only filesystem.
-5. If something malfunctions and the read-write FSW (`/root/bus` folder) is not accessible after boot, the EXT4 filesystem will be re-generated automatically using the [fs-initialize.service](overlay/usr/lib/systemd/system/fs-initialize.service). This will restore the system to the golden image state.
-6. If even the EXT4 filesystem generation fails for some reason, the OS will bind `/usr/local/fsw` directly to `/root`, see [fs-fallback.service](overlay/usr/lib/systemd/system/fs-fallback.service). This will allow the system to operate at least in a read-only mode using the golden image software.
+5. Finally, the OS binds `/mnt/journal` to  `/var/log/journal` to enable persistent journal archiving, see [var-log-journal.mount](overlay/usr/lib/systemd/system/var-log-journal.mount).
+Fallback options:
+1. If something malfunctions and the read-write FSW (`/root/bus` folder) is not accessible after boot, the EXT4 filesystem will be re-generated automatically using the [fs-initialize.service](overlay/usr/lib/systemd/system/fs-initialize.service). This will restore the system to the golden image state.
+2. If even the EXT4 filesystem generation fails for some reason, the OS will bind `/usr/local/fsw` directly to `/root`, see [fs-fallback.service](overlay/usr/lib/systemd/system/fs-fallback.service). This will allow the system to operate at least in a read-only mode using the golden image software.

@@ -1,7 +1,7 @@
 [Unit]
 Description=Initialize Filesystems
 ConditionPathExists=!/root/bus
-After=local-fs-pre.target mnt.mount root.mount
+After=local-fs-pre.target mnt.mount root.mount var-log-journal.mount
 Before=fs-fallback.service local-fs.target
 DefaultDependencies=no
 
@@ -9,8 +9,9 @@ DefaultDependencies=no
 Type=oneshot
 ExecStart=/sbin/mkfs.ext4 -FFq /dev/mmcblk0p3
 ExecStartPost=/bin/systemctl start mnt.mount
-ExecStartPost=/bin/mkdir /mnt/tmp /mnt/overlay
+ExecStartPost=/bin/mkdir /mnt/tmp /mnt/overlay /mnt/journal
 ExecStartPost=/bin/systemctl start root.mount
+ExecStartPost=/bin/systemctl start var-log-journal.mount
 
 [Install]
 WantedBy=local-fs.target
