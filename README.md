@@ -2,13 +2,13 @@
 Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-compiles a cut-down Linux with a few packages using [buildroot](https://buildroot.org/).
 
 ## Instructions
-- A linux host with git and subversion installed is needed
-- Configure the `CLICK_FSW_VERSION` and `BOOT_WITH_PPP` variables in `build.sh`
-- To start the image build, run `./build.sh`
-- On first run, the build can take up to an hour, depending on computing power
-- Final images will appear in the `/img` folder
-- `click_emmc.img` is the eMMC file that can be flashed using usbboot from a linux host
-- `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image to be uplinked to the BCT bus.
+1. A linux host with git and subversion installed is needed
+2. Configure the `CLICK_FSW_VERSION` and `BOOT_WITH_PPP` variables in `build.sh`
+3. To start the image build, run `./build.sh`
+4. On first run, the build can take up to an hour, depending on computing power
+5. Final images will appear in the `/img` folder
+6. `click_emmc.img` is the eMMC file that can be flashed using usbboot from a linux host
+7. `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image to be uplinked to the BCT bus.
 
 ## Overview
 - `build.sh` is the main script that executes buildroot. It has a variable `CLICK_FSW_VERSION` defining which flight software version to bundle, and `BOOT_WITH_PPP` which can be used to generate an image that boots in debugging mode with PPP/SSH running.
