@@ -1,5 +1,5 @@
 [Unit]
-Description=Load SPI driver
+Description=SPI driver
 After=local-fs.target
 Before=default.target
 
