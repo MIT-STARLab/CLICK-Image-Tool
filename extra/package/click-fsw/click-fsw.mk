@@ -3,6 +3,7 @@ CLICK_FSW_VERSION = $(FSW_VERSION)
 CLICK_FSW_SITE = $(call github,MIT-STARLab,CLICK-A-RPi,master)
 CLICK_FSW_LICENSE = LGPL-3.0
 CLICK_FSW_LICENSE_FILES = LICENSE.md
+CLICK_FSW_DEPENDENCIES = cppzmq matrix-vision
 
 # Force kernel to export the needed symbols for the SPI driver at bus/driver
 # The kernel is configured to strip unused symbols otherwise to save space
