@@ -9,8 +9,8 @@ class_destroy
 kfree
 __kfifo_free
 kmem_cache_alloc_trace
+___ratelimit
 __stack_chk_fail
-_dev_info
 cdev_add
 _dev_err
 request_threaded_irq
@@ -22,6 +22,7 @@ spi_async
 memset
 _dev_warn
 wait_for_completion
+_dev_notice
 unregister_chrdev_region
 arm_copy_from_user
 __gnu_mcount_nc
