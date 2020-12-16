@@ -12,6 +12,7 @@ define MATRIX_VISION_INSTALL_STAGING_CMDS
 	$(INSTALL) -d $(STAGING_DIR)/usr/include/mvDeviceManager/Include
 	$(INSTALL) -d $(STAGING_DIR)/usr/include/mvPropHandling/Include
 	$(INSTALL) -d $(STAGING_DIR)/usr/include/mvIMPACT_CPP
+	$(INSTALL) -d $(STAGING_DIR)/usr/include/common/crt
 	$(INSTALL) -D -m 0644 $(@D)/DriverBase/Include/*.h $(STAGING_DIR)/usr/include/DriverBase/Include
 	$(INSTALL) -D -m 0644 $(@D)/mvDeviceManager/Include/*.h $(STAGING_DIR)/usr/include/mvDeviceManager/Include
 	$(INSTALL) -D -m 0644 $(@D)/mvPropHandling/Include/*.h $(STAGING_DIR)/usr/include/mvPropHandling/Include
