@@ -2,7 +2,7 @@
 Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-compiles a cut-down Linux with a few packages using [buildroot](https://buildroot.org/).
 
 ## Instructions
-1. A linux host with git and subversion installed is needed
+1. A linux host with git, subversion and device-tree-compiler installed is needed
 2. Configure the `CLICK_FSW_VERSION` and `BOOT_WITH_PPP` variables in `build.sh`
 3. To start the image build, run `./build.sh`
 4. On first run, the build can take up to an hour, depending on computing power
@@ -16,8 +16,8 @@ Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-co
 - `config_buildroot.txt` contains buildroot config flags. Defines how to build the system, which Linux kernel git commit to use (`BR2_LINUX_KERNEL_CUSTOM_TARBALL_LOCATION`), which packages to include in the system (`BR2_PACKAGE_xxx`), and some other basic configuration. Can be modified to add more software packages if needed.
 - `config_kernel.txt` contains Linux kernel config flags. Defines which kernel modules are bundled with the kernel image and which are built as external modules. Mostly disables a lot of unneeded kernel features and drivers to make the image smaller. Should not need changing.
 - `config_rpi.txt` is the config for the RPi bootloader. Sets a static GPU clock to fix SPI frequency and configures the SPI using the device tree overlay from the SPI driver.
-- `extra/` contains definitions for custom/uncommon packages that are not included in buildroot by default, such as the custom flight software and the png2jpeg tool. Each folder in `extra/package/` has makefiles that define how the package is downloaded, built and installed to the image. More uncommon software packages can be defined here.
-- `overlay/` is a custom tree of files that are added directly to the OS partition by buildroot. These include some system config files, OS services, and the Matrix Vision and FPGAlink libraries.
+- `extra/` contains definitions for custom/uncommon packages that are not included in buildroot by default, such as the custom flight software, the Matrix Vision SDK, and the png2jpeg tool. Each folder in `extra/package/` has makefiles that define how the package is downloaded, built and installed to the image. More uncommon software packages can be defined here.
+- `overlay/` is a custom tree of files that are added directly to the OS partition by buildroot. These include some system config files, OS services, and the FPGAlink libraries.
 - `post_build.sh` is a script that is automatically executed after buldroot is done with all package compilation. It does some OS configuration before the OS is packaged.
 - `post_image.sh` is a script that is automatically executed after buldroot packages the OS. It creates a raw flash image with all the partitions, which can be directly flashed onto the RPi eMMC.
 
