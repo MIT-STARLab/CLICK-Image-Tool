@@ -2,7 +2,7 @@
 # Main script to build a CLICK golden image
 
 # RPi FSW version to use: either a tag or commit hash from https://github.com/MIT-STARLab/CLICK-A-RPi/
-export FSW_VERSION="796b1ed87d6f33209ff91dcbf0b4462ff4dddbf8"
+export FSW_VERSION="82c6b19ffc2692baddbca0a449caaaba5d52352a"
 
 # Flag to enable/disable SSH over PPP service on boot
 export BOOT_WITH_PPP=1
@@ -15,7 +15,9 @@ cores=$((cores+1))
 [ ! -f "buildroot/Makefile" ] && git submodule update --init --jobs $cores
 
 # Run buildroot
+SECONDS=0
 cd buildroot
 make defconfig BR2_DEFCONFIG=../config_buildroot.txt BR2_EXTERNAL=../extra BR2_JLEVEL=$cores O=../output
 cd ../output
 make BR2_JLEVEL=$cores $1 all
+echo "Finished in $((SECONDS/3600))h $(((SECONDS/60)%60))m $((SECONDS%60))s"

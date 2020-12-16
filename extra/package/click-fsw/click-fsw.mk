@@ -19,7 +19,7 @@ $(eval $(kernel-module))
 
 # Compile PAT software
 define CLICK_FSW_BUILD_CMDS
-    $(MAKE) $(TARGET_CONFIGURE_OPTS) CXXFLAGS="-Os -D_REENTRANT -Wno-psabi -Wno-deprecated-declarations -fPIC -pedantic" -C $(@D)/camera/pat
+    $(MAKE) $(TARGET_CONFIGURE_OPTS) CXXFLAGS="-Os -D_REENTRANT -Wno-psabi -Wno-deprecated-declarations -fPIC -pedantic" -C $(@D)/camera/pat all enumerate
 endef
 
 # Install the flight software
@@ -27,6 +27,7 @@ define CLICK_FSW_INSTALL_TARGET_CMDS
     # Install PAT
     mkdir -p $(TARGET_DIR)/usr/local/fsw/bin
     $(INSTALL) -m 0755 $(@D)/camera/pat/pat $(TARGET_DIR)/usr/local/fsw/bin
+    $(INSTALL) -m 0755 $(@D)/camera/pat/enumerate $(TARGET_DIR)/usr/local/fsw/bin
     
     # Rsync all the python code
     rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' \
