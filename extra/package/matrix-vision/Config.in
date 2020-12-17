@@ -1,6 +1,10 @@
 config BR2_PACKAGE_MATRIX_VISION
     bool "matrix-vision"
+    depends on BR2_GCC_ENABLE_OPENMP
     select BR2_PACKAGE_LIBUSB
+    select BR2_PACKAGE_EXPAT
 
     help
         Matrix Vision libraries for the mvBlueFox camera.
+
+        http://static.matrix-vision.com/mvIMPACT_Acquire/
