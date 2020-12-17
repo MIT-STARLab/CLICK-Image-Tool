@@ -1,7 +1,7 @@
 # Defines how to install custom CLICK flight software
 # FSW_VERSION is defined in build.sh
 CLICK_FSW_VERSION = $(FSW_VERSION)
-CLICK_FSW_SITE = $(call github,MIT-STARLab,CLICK-A-RPi,master)
+CLICK_FSW_SITE = $(call github,MIT-STARLab,CLICK-A-RPi,$(FSW_VERSION))
 CLICK_FSW_LICENSE = LGPL-3.0
 CLICK_FSW_LICENSE_FILES = LICENSE.md
 CLICK_FSW_DEPENDENCIES = cppzmq matrix-vision

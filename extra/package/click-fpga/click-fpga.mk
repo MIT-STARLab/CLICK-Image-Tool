@@ -1,7 +1,7 @@
 # Defines how to install custom CLICK FPGA image
 # FPGA_VERSION is defined in build.sh
 CLICK_FPGA_VERSION = $(FPGA_VERSION)
-CLICK_FPGA_SITE = $(call github,MIT-STARLab,CLICK-A-FPGA,main)
+CLICK_FPGA_SITE = $(call github,MIT-STARLab,CLICK-A-FPGA,$(FPGA_VERSION))
 CLICK_FPGA_LICENSE = LGPL-3.0
 CLICK_FPGA_LICENSE_FILES = LICENSE.md
 
