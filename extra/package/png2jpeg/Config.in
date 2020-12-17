@@ -5,6 +5,6 @@ config BR2_PACKAGE_PNG2JPEG
     select BR2_PACKAGE_LIBPNG
   
     help
-        A library for JTAG-programming and subsequently interacting with an FPGA over USB using a microcontroller (primarily the Cypress FX2LP).
+        png2jpeg is a simple command-line image converter from PNG to JPEG.
 
-        https://github.com/makestuff/libfpgalink
+        https://sourceforge.net/projects/png2jpeg/
