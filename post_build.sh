@@ -12,7 +12,7 @@ ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
 cp ${TARGET_DIR}/usr/lib/systemd/system/dropbear.service \
     ${TARGET_DIR}/usr/lib/systemd/user/
 
-# Make PPP/SSH run on boot if configured so
+# Make PPP/SSH run on boot if configured so (defined in build.sh)
 mkdir -p ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants
 if [ ${BOOT_WITH_PPP} -eq 1 ]; then
     ln -sfn /usr/lib/systemd/user/ppp.service \

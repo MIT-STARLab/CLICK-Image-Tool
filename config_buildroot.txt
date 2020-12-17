@@ -52,6 +52,7 @@ BR2_TARGET_LOCALTIME="America/New_York"
 
 # CLICK FSW with its dependencies (see extra/package/click-fsw)
 BR2_PACKAGE_CLICK_FSW=y
+BR2_PACKAGE_CLICK_FPGA=y
 
 # Basic system packages
 BR2_PACKAGE_BUSYBOX=n
