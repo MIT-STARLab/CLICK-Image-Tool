@@ -1,8 +1,6 @@
 config BR2_PACKAGE_MATRIX_VISION
     bool "matrix-vision"
     select BR2_PACKAGE_LIBUSB
-    select BR2_PACKAGE_LIBFREEIMAGE
-    select BR2_PACKAGE_EXPAT
 
     help
         Matrix Vision libraries for the mvBlueFox camera.

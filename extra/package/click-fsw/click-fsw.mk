@@ -19,7 +19,8 @@ $(eval $(kernel-module))
 
 # Compile PAT software
 define CLICK_FSW_BUILD_CMDS
-    $(MAKE) $(TARGET_CONFIGURE_OPTS) CXXFLAGS="-Os -D_REENTRANT -Wno-psabi -Wno-deprecated-declarations -fPIC -pedantic" -C $(@D)/camera/pat all enumerate
+    $(MAKE) $(TARGET_CONFIGURE_OPTS) CXXFLAGS="-Os -D_REENTRANT -Wno-psabi -Wno-deprecated-declarations \
+        -Wl,-unresolved-symbols=ignore-in-shared-libs -fPIC -pedantic" -C $(@D)/camera/pat all enumerate
 endef
 
 # Install the flight software
