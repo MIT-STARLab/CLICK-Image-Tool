@@ -1,9 +1,6 @@
-config BR2_PACKAGE_PNG2JPEG
-    bool "png2jpeg"
-    select BR2_PACKAGE_ZLIB
-    select BR2_PACKAGE_JPEG
-    select BR2_PACKAGE_LIBPNG
-  
+config BR2_PACKAGE_FPGALINK
+    bool "fpgalink"
+
     help
         A library for JTAG-programming and subsequently interacting with an FPGA over USB using a microcontroller (primarily the Cypress FX2LP).
 

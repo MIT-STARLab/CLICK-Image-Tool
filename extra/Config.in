@@ -1,5 +1,6 @@
 source "$BR2_EXTERNAL_CLICK_PATH/package/click-fsw/Config.in"
 source "$BR2_EXTERNAL_CLICK_PATH/package/click-fpga/Config.in"
 source "$BR2_EXTERNAL_CLICK_PATH/package/matrix-vision/Config.in"
+source "$BR2_EXTERNAL_CLICK_PATH/package/fpgalink/Config.in"
 source "$BR2_EXTERNAL_CLICK_PATH/package/png2jpeg/Config.in"
 source "$BR2_EXTERNAL_CLICK_PATH/package/python-crccheck/Config.in"
