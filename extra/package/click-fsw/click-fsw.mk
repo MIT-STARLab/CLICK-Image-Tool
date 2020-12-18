@@ -32,9 +32,10 @@ define CLICK_FSW_INSTALL_TARGET_CMDS
     
     # Rsync all non-binary files
     rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' \
-        --exclude='camera' --exclude='bus/driver' $(@D)/ $(TARGET_DIR)/usr/local/fsw/
-
+        --exclude='camera' --exclude='services' --exclude='bus/driver' $(@D)/ $(TARGET_DIR)/usr/local/fsw/
+    
     # Install FSW systemd user services
+    ln -sfn .config/systemd/user ${TARGET_DIR}/usr/local/fsw/services
     $(INSTALL) -d ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants
     $(INSTALL) -m 0644 $(@D)/services/* ${TARGET_DIR}/usr/local/fsw/.config/systemd/user
     for svc in $(notdir $(wildcard $(@D)/services/*)); do \

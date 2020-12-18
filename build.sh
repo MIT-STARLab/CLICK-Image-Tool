@@ -2,7 +2,7 @@
 # Main script to build a CLICK golden image
 
 # FSW/FPGA version to use: either a tag or commit hash from CLICK-A-RPi and CLICK-A-FPGA repositories
-export FSW_VERSION="b13d3d9c2adbf918f2a9ff13739f0551ca15c5a9"
+export FSW_VERSION="b75e6659780a1a31d7e3b60599736d0ed69579de"
 export FPGA_VERSION="f9d2ab603b26612674a6ff188968d62685d2ec8f"
 
 # Flag to enable/disable SSH over PPP service on boot
@@ -20,6 +20,6 @@ cores=$((cores+1))
 cd buildroot
 make defconfig BR2_DEFCONFIG=../config_buildroot.txt BR2_EXTERNAL=../extra BR2_JLEVEL=$cores O=../output
 cd ../output
-make BR2_JLEVEL=$cores $@ all
+make BR2_JLEVEL=$cores $@
 
 echo "Finished in $((SECONDS/3600))h $(((SECONDS/60)%60))m $((SECONDS%60))s"

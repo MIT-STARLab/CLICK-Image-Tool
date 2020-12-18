@@ -1,7 +1,0 @@
-config BR2_PACKAGE_FPGALINK
-    bool "fpgalink"
-
-    help
-        A library for JTAG-programming and subsequently interacting with an FPGA over USB using a microcontroller (primarily the Cypress FX2LP).
-
-        https://github.com/makestuff/libfpgalink
