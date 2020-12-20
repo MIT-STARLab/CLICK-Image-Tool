@@ -78,5 +78,4 @@ for f in "${autostop_svc[@]}"; do
 done
 
 # Delete some extra overhead
-# rm -rf ${TARGET_DIR}/usr/lib/python2.7/ensurepip
 rm -rf ${TARGET_DIR}/usr/lib/python2.7/site-packages/zmq/tests

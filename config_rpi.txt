@@ -8,8 +8,8 @@ gpu_mem=16
 
 # Fix GPU clock to make SCLK correct and stable
 # https://github.com/raspberryPI/linux/issues/2094
-core_freq_min=350
-core_freq=350
+core_freq_min=200
+core_freq=200
 
 # Allow USB to draw max current
 max_usb_current=1

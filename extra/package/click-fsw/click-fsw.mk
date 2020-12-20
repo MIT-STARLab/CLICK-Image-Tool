@@ -18,17 +18,20 @@ CLICK_FSW_MODULE_SUBDIRS = bus/driver
 # Compile the SPI driver
 $(eval $(kernel-module))
 
-# Compile PAT
+# Compile PAT and testers
 define CLICK_FSW_BUILD_CMDS
     $(MAKE) $(TARGET_CONFIGURE_OPTS) CXXFLAGS="-Os -D_REENTRANT -Wno-psabi -Wno-deprecated-declarations \
-        -Wl,-unresolved-symbols=ignore-in-shared-libs -fPIC -pedantic" -C $(@D)/camera/pat all
+        -Wl,-unresolved-symbols=ignore-in-shared-libs -fPIC -pedantic" -C $(@D)/camera/pat all enumerate
+    $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/bus/driver test
 endef
 
 # Install the flight software
 define CLICK_FSW_INSTALL_TARGET_CMDS
-    # Install PAT
+    # Install PAT and testers
     $(INSTALL) -d $(TARGET_DIR)/usr/local/fsw/bin
     $(INSTALL) -m 0755 $(@D)/camera/pat/pat $(TARGET_DIR)/usr/local/fsw/bin
+    $(INSTALL) -m 0755 $(@D)/camera/pat/enumerate $(TARGET_DIR)/usr/local/fsw/bin/test_camera
+    $(INSTALL) -m 0755 $(@D)/bus/driver/test_tlm $(TARGET_DIR)/usr/local/fsw/bin
     
     # Rsync all non-binary files
     rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' \
@@ -50,12 +53,16 @@ define CLICK_FSW_INSTALL_IMAGES_CMDS
     dtc -O dtb -o ${BINARIES_DIR}/overlays/click_spi.dtbo -b 0 -@ $(@D)/bus/driver/click_spi.dts
 endef
 
-# Install SPI kernel driver to /usr/local/fsw/bin
-define CLICK_FSW_COPY_DRIVER
+# Post install hook
+define CLICK_FSW_POST_INSTALL
+    # Install SPI kernel driver to /usr/local/fsw/bin
     mv $(TARGET_DIR)/lib/modules/$(KVERSION)/extra/click_spi.ko \
         $(TARGET_DIR)/usr/local/fsw/bin
+
+    # Save binaries to top-level /bin folder for uplink
+    cp -r $(TARGET_DIR)/usr/local/fsw/bin $(BASE_DIR)/../
 endef
 
-CLICK_FSW_POST_INSTALL_TARGET_HOOKS += CLICK_FSW_COPY_DRIVER
+CLICK_FSW_POST_INSTALL_TARGET_HOOKS += CLICK_FSW_POST_INSTALL
 
 $(eval $(generic-package))
