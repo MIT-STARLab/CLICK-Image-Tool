@@ -58,7 +58,7 @@ bootfiles=$(printf "\"%s\"," "${bootfiles[@]}")
 bootfiles=${bootfiles%?}
 cat > "${BUILD_DIR}/genimage.cfg" <<EOF
 image boot.vfat { vfat { extraargs = "-F 16 -s 1" files = { $bootfiles } } size = $BOOT_PART_OVERHEAD }
-image click_rpi.img {
+image click_emmc.img {
     hdimage {}
     partition boot { partition-type = 0xE bootable = "true" image = "boot.vfat" }
     partition os { partition-type = 0x83 image = "rootfs.squashfs" }
@@ -83,5 +83,7 @@ genimage \
     --inputpath "${BINARIES_DIR}"  \
     --outputpath "${BINARIES_DIR}" \
     --config "${BUILD_DIR}/genimage.cfg"
+
+[ -f "${BINARIES_DIR}/click_emmc.img" ] && mv "${BINARIES_DIR}/click_emmc.img" "${BASE_DIR}/../img/"
 
 exit $?
