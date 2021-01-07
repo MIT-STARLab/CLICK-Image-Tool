@@ -23,6 +23,7 @@ define CLICK_FSW_BUILD_CMDS
     $(MAKE) $(TARGET_CONFIGURE_OPTS) CXXFLAGS="-Os -D_REENTRANT -Wno-psabi -Wno-deprecated-declarations \
         -Wl,-unresolved-symbols=ignore-in-shared-libs -fPIC -pedantic" -C $(@D)/camera/pat all enumerate
     $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D)/bus/driver test
+    $(MAKE) $(TARGET_CONFIGURE_OPTS) LIBDIRS=-L$(BR2_EXTERNAL_CLICK_PATH)/../overlay/usr/lib -C $(@D)/fpga/fline
 endef
 
 # Install the flight software
@@ -32,10 +33,12 @@ define CLICK_FSW_INSTALL_TARGET_CMDS
     $(INSTALL) -m 0755 $(@D)/camera/pat/pat $(TARGET_DIR)/usr/local/fsw/bin
     $(INSTALL) -m 0755 $(@D)/camera/pat/enumerate $(TARGET_DIR)/usr/local/fsw/bin/test_camera
     $(INSTALL) -m 0755 $(@D)/bus/driver/test_tlm $(TARGET_DIR)/usr/local/fsw/bin
+    $(INSTALL) -m 0755 $(@D)/fpga/fline/fline $(TARGET_DIR)/usr/local/fsw/bin
     
     # Rsync all non-binary files
     rsync -a --exclude='.*' --exclude='*.md' --exclude='*~' --exclude='*.o' \
-        --exclude='camera' --exclude='services' --exclude='bus/driver' $(@D)/ $(TARGET_DIR)/usr/local/fsw/
+        --exclude='camera' --exclude='services' --exclude='bus/driver' --exclude='fpga/fline' \
+        $(@D)/ $(TARGET_DIR)/usr/local/fsw/
     
     # Install FSW systemd user services
     ln -sfn .config/systemd/user ${TARGET_DIR}/usr/local/fsw/services
