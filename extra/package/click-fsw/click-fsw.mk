@@ -4,7 +4,7 @@ CLICK_FSW_VERSION = $(FSW_VERSION)
 CLICK_FSW_SITE = $(call github,MIT-STARLab,CLICK-A-RPi,$(FSW_VERSION))
 CLICK_FSW_LICENSE = LGPL-3.0
 CLICK_FSW_LICENSE_FILES = LICENSE.md
-CLICK_FSW_DEPENDENCIES = cppzmq matrix-vision
+CLICK_FSW_DEPENDENCIES = cppzmq matrix-vision nlopt
 CLICK_FSW_INSTALL_IMAGES = YES
 
 # Force kernel to export the needed symbols for the kernel SPI driver (./bus/driver)
