@@ -84,15 +84,17 @@ genimage \
     --outputpath "${BINARIES_DIR}" \
     --config "${BUILD_DIR}/genimage.cfg"
 
-# Create a golden image by prepending the USB bootloader (msd.elf),
-# as well the size of the EMMC image in sectors
+# Create a golden image by prepending the USB bootloader (msd.elf) and the image size
 if [ -f "${BINARIES_DIR}/click_emmc.img" ]; then
+    # Get image size in sectors as a little-endian hex integer
     IMG_SIZE=$(stat --printf="%s" "${BINARIES_DIR}/click_emmc.img")
     IMG_SIZE=$((IMG_SIZE/RPI_FLASH_SECTOR_SIZE))
+    IMG_SIZE=$(printf "%.8x" $IMG_SIZE)
+    IMG_SIZE=${IMG_SIZE:6:2}${IMG_SIZE:4:2}${IMG_SIZE:2:2}${IMG_SIZE:0:2}
     cp "${BINARIES_DIR}/click_emmc.img" "${BASE_DIR}/../img/"
     cp "${HOST_DIR}/usr/share/rpiboot/msd.elf" "${BASE_DIR}/../img/click_golden.img"
     chmod -x "${BASE_DIR}/../img/click_golden.img"
-    printf "%.8x" $IMG_SIZE | xxd -r -p >> "${BASE_DIR}/../img/click_golden.img"
+    echo -n $IMG_SIZE | xxd -r -p >> "${BASE_DIR}/../img/click_golden.img"
     cat "${BINARIES_DIR}/click_emmc.img" >> "${BASE_DIR}/../img/click_golden.img"
 fi
 
