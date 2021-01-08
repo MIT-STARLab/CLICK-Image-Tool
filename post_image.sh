@@ -66,7 +66,7 @@ image click_emmc.img {
 }
 EOF
 
-# All below copied from buildroot/board/raspberrypi3/post-image.sh
+# The below is copied from buildroot/board/raspberrypi3/post-image.sh
 # Pass an empty rootpath. genimage makes a full copy of the given rootpath to
 # ${GENIMAGE_TMP}/root so passing TARGET_DIR would be a waste of time and disk
 # space. We don't rely on genimage to build the rootfs image, just to insert a
@@ -84,6 +84,16 @@ genimage \
     --outputpath "${BINARIES_DIR}" \
     --config "${BUILD_DIR}/genimage.cfg"
 
-[ -f "${BINARIES_DIR}/click_emmc.img" ] && mv "${BINARIES_DIR}/click_emmc.img" "${BASE_DIR}/../img/"
+# Create a golden image by prepending the USB bootloader (msd.elf),
+# as well the size of the EMMC image in sectors
+if [ -f "${BINARIES_DIR}/click_emmc.img" ]; then
+    IMG_SIZE=$(stat --printf="%s" "${BINARIES_DIR}/click_emmc.img")
+    IMG_SIZE=$((IMG_SIZE/RPI_FLASH_SECTOR_SIZE))
+    cp "${BINARIES_DIR}/click_emmc.img" "${BASE_DIR}/../img/"
+    cp "${HOST_DIR}/usr/share/rpiboot/msd.elf" "${BASE_DIR}/../img/click_golden.img"
+    chmod -x "${BASE_DIR}/../img/click_golden.img"
+    printf "%.8x" $IMG_SIZE | xxd -r -p >> "${BASE_DIR}/../img/click_golden.img"
+    cat "${BINARIES_DIR}/click_emmc.img" >> "${BASE_DIR}/../img/click_golden.img"
+fi
 
 exit $?
