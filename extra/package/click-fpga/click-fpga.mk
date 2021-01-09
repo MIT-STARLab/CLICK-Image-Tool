@@ -8,10 +8,7 @@ CLICK_FPGA_LICENSE_FILES = LICENSE.md
 # Install the FPGA image
 define CLICK_FPGA_INSTALL_TARGET_CMDS
 	$(INSTALL) -d $(TARGET_DIR)/usr/local/fsw/bin
-	$(INSTALL) -m 0644 $(@D)/test3.xsvf $(TARGET_DIR)/usr/local/fsw/bin/fpga_old.xsvf
-	$(INSTALL) -m 0644 $(@D)/protected_output_3.xsvf $(TARGET_DIR)/usr/local/fsw/bin/fpga_prot.xsvf
-	$(INSTALL) -m 0644 $(@D)/protected_output_3_stall_inverted.xsvf $(TARGET_DIR)/usr/local/fsw/bin/fpga_prot_inv.xsvf
-	$(INSTALL) -m 0644 $(@D)/protected_output_3.xsvf $(TARGET_DIR)/usr/local/fsw/bin/fpga.xsvf
+	$(INSTALL) -m 0644 $(@D)/protected_output_5_stall.xsvf $(TARGET_DIR)/usr/local/fsw/bin/fpga.xsvf
 endef
 
 $(eval $(generic-package))

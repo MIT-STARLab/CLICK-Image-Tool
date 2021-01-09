@@ -20,8 +20,9 @@ disable_splash=1
 force_eeprom_read=0
 dtparam=audio=off
 
-# Enable CLICK driver
+# Configure SPI interfaces
 dtoverlay=click_spi
+dtoverlay=spi1-1cs
 
 # Enable debug UART
 dtparam=uart0=on

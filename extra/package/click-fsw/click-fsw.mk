@@ -50,10 +50,11 @@ define CLICK_FSW_INSTALL_TARGET_CMDS
     done
 endef
 
-# Install SPI device tree overlay
+# Install SPI device tree overlays
 define CLICK_FSW_INSTALL_IMAGES_CMDS 
     mkdir -p ${BINARIES_DIR}/overlays
     dtc -O dtb -o ${BINARIES_DIR}/overlays/click_spi.dtbo -b 0 -@ $(@D)/bus/driver/click_spi.dts
+    cp ${LINUX_DIR}/arch/${KERNEL_ARCH}/boot/dts/overlays/spi1-1cs.dtbo ${BINARIES_DIR}/overlays/
 endef
 
 # Post install hook

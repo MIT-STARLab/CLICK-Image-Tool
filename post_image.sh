@@ -31,6 +31,7 @@ function align_to_flash {
 # Files used to calculate boot partition size
 declare -a bootfiles=(
     "overlays/click_spi.dtbo"
+    "overlays/spi1-1cs.dtbo"
     "bcm2710-rpi-cm3.dtb"
     "cmdline.txt"
     "config.txt"
@@ -52,12 +53,22 @@ OS_PART_SIZE=$SIZE_ALIGNED
 # Calculate available space for the R/W ext4 partition
 RW_PART_SIZE=$(((RPI_FLASH_TOTAL_SECTORS*RPI_FLASH_SECTOR_SIZE)-BOOT_PART_OVERHEAD-OS_PART_SIZE))
 
+# Files & folders to put into boot FAT image
+declare -a fatfiles=(
+    "overlays"
+    "bcm2710-rpi-cm3.dtb"
+    "cmdline.txt"
+    "config.txt"
+    "kernel.img"
+    "rpi-firmware/bootcode.bin"
+    "rpi-firmware/fixup.dat"
+    "rpi-firmware/start.elf")
+
 # Prepare config for the buildroot genimage tool (https://github.com/pengutronix/genimage)
-bootfiles[0]="overlays"
-bootfiles=$(printf "\"%s\"," "${bootfiles[@]}")
-bootfiles=${bootfiles%?}
+fatfiles=$(printf "\"%s\"," "${fatfiles[@]}")
+fatfiles=${fatfiles%?}
 cat > "${BUILD_DIR}/genimage.cfg" <<EOF
-image boot.vfat { vfat { extraargs = "-F 16 -s 1" files = { $bootfiles } } size = $BOOT_PART_OVERHEAD }
+image boot.vfat { vfat { extraargs = "-F 16 -s 1" files = { $fatfiles } } size = $BOOT_PART_OVERHEAD }
 image click_emmc.img {
     hdimage {}
     partition boot { partition-type = 0xE bootable = "true" image = "boot.vfat" }
