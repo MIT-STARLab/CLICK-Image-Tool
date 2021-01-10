@@ -1,9 +1,9 @@
 config BR2_PACKAGE_CLICK_FSW
     bool "click-fsw"
     depends on BR2_LINUX_KERNEL
-    depends on BR2_PACKAGE_CPPZMQ
     select BR2_PACKAGE_LIBUSB
     select BR2_PACKAGE_ZEROMQ
+    select BR2_PACKAGE_CPPZMQ
     select BR2_PACKAGE_MATRIX_VISION
     select BR2_PACKAGE_NLOPT
     select BR2_PACKAGE_PYTHON

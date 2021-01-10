@@ -18,7 +18,7 @@ CLICK_FSW_MODULE_SUBDIRS = bus/driver
 # Compile the SPI driver
 $(eval $(kernel-module))
 
-# Compile PAT and testers
+# Compile all bianries
 define CLICK_FSW_BUILD_CMDS
     $(MAKE) $(TARGET_CONFIGURE_OPTS) CXXFLAGS="-Os -D_REENTRANT -Wno-psabi -Wno-deprecated-declarations \
         -Wl,-unresolved-symbols=ignore-in-shared-libs -fPIC -pedantic" -C $(@D)/camera/pat all enumerate
@@ -28,7 +28,7 @@ endef
 
 # Install the flight software
 define CLICK_FSW_INSTALL_TARGET_CMDS
-    # Install PAT and testers
+    # Install all binaries
     $(INSTALL) -d $(TARGET_DIR)/usr/local/fsw/bin
     $(INSTALL) -m 0755 $(@D)/camera/pat/pat $(TARGET_DIR)/usr/local/fsw/bin
     $(INSTALL) -m 0755 $(@D)/camera/pat/enumerate $(TARGET_DIR)/usr/local/fsw/bin/test_camera
