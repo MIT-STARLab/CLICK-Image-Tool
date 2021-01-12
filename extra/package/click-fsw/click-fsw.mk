@@ -47,6 +47,7 @@ define CLICK_FSW_INSTALL_TARGET_CMDS
     for svc in $(notdir $(wildcard $(@D)/services/*)); do \
         grep -qE '^WantedBy=default' $(@D)/services/$$svc && ln -sfn ../$$svc \
         ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants/$$svc; \
+        echo "Installed $$svc"; \
     done
 endef
 
