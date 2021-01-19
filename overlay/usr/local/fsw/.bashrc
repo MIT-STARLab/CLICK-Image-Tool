@@ -20,6 +20,7 @@ function log() {
     local offset=$1
     local len=${#ids[@]}
     local requested=$((len-offset-1))
+    [[ $requested -lt 0 ]] && requested=0
     journalctl --file /mnt/journal/${ids[$requested]}/system.journal
   fi
 }

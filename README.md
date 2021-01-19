@@ -2,12 +2,12 @@
 Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-compiles a cut-down Linux system with a few packages using [buildroot](https://buildroot.org/).
 
 ## Instructions
-1. A linux host with git, subversion and device-tree-compiler installed is needed
+1. A linux host with git, subversion and device-tree-compiler installed is needed (WSL works too)
 2. Configure the top-level variables in `build.sh`
 3. To start the image build, run `./build.sh`
 4. On first run, the build can take up to an hour, depending on computing power
 5. Final images will appear in the `img/` folder
-6. `click_emmc.img` is the eMMC file that can be flashed using usbboot from a linux host
+6. `click_emmc.img` is the raw eMMC file that can be flashed using rpiboot with a Comptude Module IO board
 7. `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image to be uplinked to the BCT bus.
 8. The default root password is `lasercom`. CLICK SSH keys can also be used to log in using SSH without a password when in debug mode.
 
@@ -19,7 +19,7 @@ Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-co
 - `extra/` contains definitions for custom/uncommon packages that are not included in buildroot by default, such as the custom flight software, Matrix Vision libraries, and the png2jpeg tool. Each folder in `extra/package/` has makefiles that define how the package is downloaded, built and installed to the image. More uncommon software packages can be defined here.
 - `overlay/` is a custom tree of files that are added directly to the OS partition by buildroot. These include some system config files and OS services and the FPGALink libraries.
 - `post_build.sh` is a script that is automatically executed after buldroot is done with all package compilation. It does some OS configuration before the OS is packaged.
-- `post_image.sh` is a script that is automatically executed after buldroot packages the OS. It creates a raw flash image with all the partitions, which can be directly flashed onto the RPi eMMC.
+- `post_image.sh` is a script that is automatically executed after buldroot packages the OS. It creates the images with all the partitions, which can be directly flashed onto the RPi.
 
 ## Partitions
 The final image (~20 MB) contains three partitions:
@@ -34,7 +34,7 @@ The way the OS handles the filesystems is explained below:
 3. On first boot, the read-write EXT4 filesystem is created and mounted on `/mnt`, see [fs-initialize.service](overlay/usr/lib/systemd/system/fs-initialize.service) and [mnt.mount](overlay/usr/lib/systemd/system/mnt.mount).
 4. Next, an [overlay filesystem](https://wiki.archlinux.org/index.php/Overlay_filesystem) is automatically mounted on `/root`. The overlay filesystem will mirror all the read-only files from `/usr/local/fsw`, but allow overwriting them within `/root`, see [root.mount](overlay/usr/lib/systemd/system/root.mount). However, all the changes are actually kept behind the scenes on `/mnt/overlay` (this is invisible to the user). This allows making changes to the original root user files and the CLICK FSW without needing changes on the read-only filesystem.
 5. All manual file modifications or new data storing should be done directly on `/root`. The `/mnt` directory should not be written to by the user.
-6. Finally, the OS binds `/mnt/journal` to  `/var/log/journal` to enable persistent journal archiving, see [var-log-journal.mount](overlay/usr/lib/systemd/system/var-log-journal.mount).
+6. Finally, the OS binds `/mnt/journal` to `/var/log/journal` to enable persistent journal archiving, see [var-log-journal.mount](overlay/usr/lib/systemd/system/var-log-journal.mount).
 
 Emergency fallback handling:
 1. If something malfunctions and the read-write FSW (`/root/bus` folder) is not accessible after boot, the EXT4 filesystem will be re-generated automatically using the [fs-initialize.service](overlay/usr/lib/systemd/system/fs-initialize.service). This will restore the system to the golden image state.
