@@ -43,22 +43,17 @@ declare -a rm_etc_svc=(
     "getty@.service"
     "remote-fs.target"
     "dropbear.service"
+    "network.service"
     "systemd-remount-fs.service"
     "systemd-hwdb-update.service"
-    "systemd-timesyncd.service"
-    "systemd-resolved.service"
-    "systemd-networkd.service"
     "systemd-ask-password-console.path"
     "systemd-machine-id-commit.service"
     "getty.target.wants/getty@tty1.service"
     "multi-user.target.wants/dropbear.service"
     "multi-user.target.wants/remote-fs.target"
-    "multi-user.target.wants/systemd-networkd.service"
-    "multi-user.target.wants/systemd-resolved.service"
-    "sysinit.target.wants/systemd-timesyncd.service"
+    "multi-user.target.wants/network.service"
     "default.target.wants/e2scrub_reap.service"
-    "timers.target.wants/e2scrub_all.timer"
-    "network-online.target.wants/systemd-networkd-wait-online.service")
+    "timers.target.wants/e2scrub_all.timer")
 
 for f in "${rm_etc_svc[@]}"; do
     rm -f ${TARGET_DIR}/etc/systemd/system/$f
@@ -66,8 +61,6 @@ done
 
 # Make some services auto-stop when unneeded
 declare -a autostop_svc=(
-    "system/systemd-resolved.service"
-    "system/systemd-networkd.service"
     "user/dropbear.service"
 )
 
@@ -79,3 +72,4 @@ done
 
 # Delete some extra overhead
 rm -rf ${TARGET_DIR}/usr/lib/python2.7/site-packages/zmq/tests
+rm -rf ${TARGET_DIR}/usr/lib/python2.7/ensurepip
