@@ -22,9 +22,9 @@ Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-co
 - `post_image.sh` is a script that is automatically executed after buldroot packages the OS. It creates the images with all the partitions, which can be directly flashed onto the RPi.
 
 ## Partitions
-The final image (~20 MB) contains three partitions:
+The final image (~19 MB) contains three partitions:
 1. boot (~3 MB), a FAT-16 filesystem with the bootloader files and the (compressed) kernel image.
-2. OS (~17 MB), a [SquashFS](https://en.wikipedia.org/wiki/SquashFS) compressed read-only filesystem that contains all the other OS files and packages, including the "golden" CLICK flight software files.
+2. OS (~16 MB), a [SquashFS](https://en.wikipedia.org/wiki/SquashFS) compressed read-only filesystem that contains all the other OS files and packages, including the "golden" CLICK flight software files.
 3. RW (3.7 GB), an empty EXT4 read-write filesystem that is created on first boot. The image only contains its partition table entry, not any data.
 
 ## Filesystem handling
