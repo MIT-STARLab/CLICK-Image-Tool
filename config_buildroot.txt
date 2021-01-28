@@ -48,7 +48,7 @@ BR2_TARGET_GENERIC_ISSUE="Welcome to buildroot kernel \\r (\\l)"
 BR2_TARGET_GENERIC_HOSTNAME="click"
 BR2_TARGET_GENERIC_ROOT_PASSWD="lasercom"
 BR2_TARGET_GENERIC_REMOUNT_ROOTFS_RW=n
-BR2_TARGET_LOCALTIME="America/New_York"
+BR2_TARGET_LOCALTIME="Etc/UTC"
 
 # CLICK FSW with its dependencies (see extra/package/click-fsw)
 BR2_PACKAGE_CLICK_FSW=y
