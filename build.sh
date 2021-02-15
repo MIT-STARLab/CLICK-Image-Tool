@@ -2,7 +2,7 @@
 # Main script to build a CLICK golden image
 
 # FSW/FPGA version to use: either a tag or commit hash from CLICK-A-RPi and CLICK-A-FPGA repositories
-export FSW_VERSION="09e51e7ae4eecfaa7c8dc64a2ca39b1d91eaa8a1"
+export FSW_VERSION="4f540fc6c458daed78bf2dece1aadfe838c1c015"
 export FPGA_VERSION="52d9b65e22dfc850b2855403780c782726e2167d"
 export FPGA_DEFAULT="images/BIST_10.xsvf"
 
