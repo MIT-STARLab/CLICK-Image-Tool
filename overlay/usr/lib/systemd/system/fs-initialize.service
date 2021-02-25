@@ -13,7 +13,7 @@ ExecStartPost=/bin/mkdir /mnt/tmp /mnt/overlay /mnt/journal
 ExecStartPost=/bin/systemctl start root.mount
 ExecStartPost=/bin/systemctl start var-log-journal.mount
 ExecStartPost=/bin/systemctl restart systemd-journal-flush.service
-ExecStartPost=/bin/mkdir -p /root/log/pat /root/data/bist /root/data/test/general /root/log/self_test_data
+ExecStartPost=/bin/mkdir -p /root/file_staging /root/log/pat /root/data/bist /root/data/test/general /root/log/self_test_data
 
 [Install]
 WantedBy=local-fs.target
