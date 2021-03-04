@@ -15,11 +15,6 @@ function log() {
   if [[ -z $1 || $1 -lt 1 ]]; then
     journalctl -b $1
   else
-    readarray -t ids < /mnt/journal/id.txt
-    local offset=$1
-    local len=${#ids[@]}
-    local requested=$((len-offset-1))
-    [[ $requested -lt 0 ]] && requested=0
-    journalctl --file /mnt/journal/${ids[$requested]}/system.journal
+    read_journal.sh $1
   fi
 }

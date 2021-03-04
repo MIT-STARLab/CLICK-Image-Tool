@@ -1,12 +1,12 @@
 [Unit]
-Description=Save Boot ID
+Description=Initialize Journal
 ConditionPathExists=/mnt/journal
 After=local-fs.target
 Before=default.target
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "cat /run/machine-id >> /mnt/journal/id.txt"
+ExecStart=/bin/bash /usr/local/bin/init_journal.sh
 
 [Install]
 WantedBy=default.target

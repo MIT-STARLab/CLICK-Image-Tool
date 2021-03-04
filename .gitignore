@@ -1,4 +1,4 @@
 .vscode/
-bin/
-output/
-img/
+/bin/
+/output/
+/img/
