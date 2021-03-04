@@ -1,4 +1,5 @@
 #!/bin/bash
+# Extract and read an older journal
 readarray -t ids < /mnt/journal/id.txt
 num_ids=${#ids[@]}
 if [[ ! -z $1 && $1 -gt 0 ]]; then
