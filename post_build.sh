@@ -5,9 +5,6 @@
 set -u
 set -e
 
-# Disable console on UART0 (used for PPP/SSH)
-ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
-
 # Make dropbear (SSH server) available to user systemd session
 cp ${TARGET_DIR}/usr/lib/systemd/system/dropbear.service \
     ${TARGET_DIR}/usr/lib/systemd/user/
@@ -15,9 +12,11 @@ cp ${TARGET_DIR}/usr/lib/systemd/system/dropbear.service \
 # Make PPP/SSH run on boot if configured so (defined in build.sh)
 mkdir -p ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants
 if [ ${BOOT_WITH_PPP} -eq 1 ]; then
+    ln -sfn /dev/null ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
     ln -sfn /usr/lib/systemd/user/ppp.service \
         ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
 else
+    rm -f ${TARGET_DIR}/etc/systemd/system/serial-getty@ttyAMA0.service
     rm -f ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants/ppp.service
 fi
 
@@ -71,5 +70,5 @@ for f in "${autostop_svc[@]}"; do
 done
 
 # Delete some extra overhead
-rm -rf ${TARGET_DIR}/usr/lib/python2.7/site-packages/zmq/tests
-rm -rf ${TARGET_DIR}/usr/lib/python2.7/ensurepip
+# rm -rf ${TARGET_DIR}/usr/lib/python2.7/site-packages/zmq/tests
+# rm -rf ${TARGET_DIR}/usr/lib/python2.7/ensurepip

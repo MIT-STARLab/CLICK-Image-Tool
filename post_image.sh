@@ -7,13 +7,13 @@ set -e
 
 # Prepare kernel and bootloader config files
 [ -f "${BINARIES_DIR}/zImage" ] && mv "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/kernel.img"
-echo "root=/dev/mmcblk0p2 rootfstype=squashfs console=none dwc_otg.lpm_enable=0 rootwait noinitrd" > \
+echo "root=/dev/mmcblk0p2 rootfstype=squashfs dwc_otg.lpm_enable=0 rootwait noinitrd" > \
     "${BINARIES_DIR}/cmdline.txt"
 cp "../config_rpi.txt" "${BINARIES_DIR}/config.txt"
 
 # Constants to help calculate partition sizes
 RPI_FLASH_SECTOR_SIZE=512
-RPI_FLASH_TOTAL_SECTORS=7634943
+RPI_FLASH_TOTAL_SECTORS=30523500
 BOOT_PART_OVERHEAD=$((86*RPI_FLASH_SECTOR_SIZE))
 EXT4_HEADER_SIZE=5120
 
