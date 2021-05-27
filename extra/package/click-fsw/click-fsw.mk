@@ -44,11 +44,11 @@ define CLICK_FSW_INSTALL_TARGET_CMDS
     ln -sfn .config/systemd/user ${TARGET_DIR}/usr/local/fsw/services
     $(INSTALL) -d ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants
     $(INSTALL) -m 0644 $(@D)/services/* ${TARGET_DIR}/usr/local/fsw/.config/systemd/user
-    for svc in $(notdir $(wildcard $(@D)/services/*)); do \
-        grep -qE '^WantedBy=default' $(@D)/services/$$svc && ln -sfn ../$$svc \
-        ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants/$$svc; \
-        echo "Installed $$svc"; \
-    done
+    # for svc in $(notdir $(wildcard $(@D)/services/*)); do \
+    #     grep -qE '^WantedBy=default' $(@D)/services/$$svc && ln -sfn ../$$svc \
+    #     ${TARGET_DIR}/usr/local/fsw/.config/systemd/user/default.target.wants/$$svc; \
+    #     echo "Installed $$svc"; \
+    # done
 endef
 
 # Install SPI device tree overlays
