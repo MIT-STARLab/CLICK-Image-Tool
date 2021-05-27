@@ -2,12 +2,12 @@
 # Main script to build a CLICK golden image
 
 # FSW/FPGA version to use: either a tag or commit hash from CLICK-A-RPi and CLICK-A-FPGA repositories
-export FSW_VERSION="5cfb4cef342a336812def91c230978cfde4147e1"
+export FSW_VERSION="7379cc6d5864befb1fb3b3cdcdf560eeb56d175a"
 export FPGA_VERSION="52d9b65e22dfc850b2855403780c782726e2167d"
 export FPGA_DEFAULT="images/BIST_10.xsvf"
 
 # Flag to enable/disable SSH over PPP service on boot
-export BOOT_WITH_PPP=1
+export BOOT_WITH_PPP=0
 
 # Initialization
 SECONDS=0
