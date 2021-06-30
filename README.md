@@ -5,11 +5,12 @@ Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-co
 1. A linux host with git, subversion and device-tree-compiler installed is needed (WSL works too)
 2. Configure the top-level variables in `build.sh`
 3. To start the image build, run `./build.sh`
-4. On first run, the build can take up to an hour, depending on computing power
-5. Final images will appear in the `img/` folder
-6. `click_emmc.img` is the raw eMMC file that can be flashed using rpiboot with a Compute Module IO board
-7. `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image to be uplinked to the BCT bus.
-8. The default root password is `lasercom`. CLICK SSH keys can also be used to log in using SSH without a password when in debug mode.
+4. To force a rebuild (in case packages or files were reconfigured), run `./build.sh clean all`
+5. On first run, the build can take up to an hour, depending on computing power
+6. Final images will appear in the `img/` folder
+7. `click_emmc.img` is the raw eMMC file that can be flashed using rpiboot with a Compute Module IO board
+8. `click_golden.img` is the golden image that includes the usbboot bootloader for VNC2L. This is the golden image to be uplinked to the BCT bus.
+9. The default root password is `lasercom`. CLICK SSH keys can also be used to log in using SSH without a password when in debug mode.
 
 ## Overview
 - `build.sh` is the main script that executes buildroot. It has a variable `CLICK_FSW_VERSION` defining which flight software version to bundle, and `BOOT_WITH_PPP` which can be used to generate an image that boots in debugging mode with PPP/SSH running.
