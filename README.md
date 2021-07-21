@@ -2,7 +2,7 @@
 Tool to generate the golden image to be flashed on the Raspberry Pi. It cross-compiles a cut-down Linux system with a few packages using [buildroot](https://buildroot.org/).
 
 ## Instructions
-1. A linux host with git, gcc, g++, make, subversion and device-tree-compiler installed is needed (WSL works too)
+1. A linux host with git, gcc, g++, make, unzip, subversion and device-tree-compiler installed is needed (WSL works too)
 2. Configure the top-level variables in `build.sh`
 3. To start the image build, run `./build.sh`
 4. To force a rebuild (in case packages or files were reconfigured), run `./build.sh clean all`
