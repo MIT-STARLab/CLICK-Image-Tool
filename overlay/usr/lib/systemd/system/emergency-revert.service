@@ -1,0 +1,12 @@
+[Unit]
+Description=Emergency revert to golden image state
+
+[Service]
+Type=oneshot
+ExecStart=/bin/systemctl stop user.slice
+ExecStartPost=/bin/systemctl stop root.mount
+ExecStartPost=/bin/systemctl stop systemd-journald
+ExecStartPost=/bin/systemctl stop var-log-journal.mount
+ExecStartPost=/bin/systemctl stop mnt.mount
+ExecStartPost=/bin/systemctl start fs-initialize
+ExecStartPost=/bin/systemctl reboot
